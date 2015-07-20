@@ -33,6 +33,12 @@
     <WarningLevel>4</WarningLevel>
     <CodeAnalysisRuleSet>Xunit.SkippableFact.Desktop.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
+  <PropertyGroup>
+    <SignAssembly>true</SignAssembly>
+  </PropertyGroup>
+  <PropertyGroup>
+    <AssemblyOriginatorKeyFile>opensourcekey.snk</AssemblyOriginatorKeyFile>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -70,6 +76,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <None Include="opensourcekey.snk" />
     <None Include="packages.config" />
     <None Include="Xunit.SkippableFact.Desktop.ruleset" />
   </ItemGroup>
