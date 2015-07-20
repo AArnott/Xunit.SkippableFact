@@ -5,7 +5,7 @@
         [SkippableFact]
         public void SkipMe()
         {
-            Skip.If(true);
+            Skip.If(true, "Because it's a sample.");
         }
 
         [SkippableFact]
