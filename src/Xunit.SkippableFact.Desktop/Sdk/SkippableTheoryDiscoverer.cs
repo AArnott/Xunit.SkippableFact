@@ -1,20 +1,17 @@
-﻿// Copyright (c) 2015 Andrew Arnott
-// Licensed under the Ms-PL
-
-namespace Xunit.Sdk
+﻿namespace Xunit.Sdk
 {
     using System;
     using System.Collections.Generic;
-    using System.ComponentModel;
+    using System.Linq;
+    using System.Text;
     using System.Threading;
     using System.Threading.Tasks;
     using Abstractions;
-    using Validation;
 
     /// <summary>
-    /// Transforms <see cref="SkippableFactAttribute"/> test methods into test cases.
+    /// Transforms <see cref="SkippableTheoryAttribute"/> test theories into test cases.
     /// </summary>
-    public class SkippableFactDiscoverer : IXunitTestCaseDiscoverer
+    public class SkippableTheoryDiscoverer : IXunitTestCaseDiscoverer
     {
         /// <summary>
         /// The diagnostic message sink provided to the constructor.
@@ -22,44 +19,52 @@ namespace Xunit.Sdk
         private readonly IMessageSink diagnosticMessageSink;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="SkippableFactDiscoverer"/> class.
+        /// The complex theory discovery process that we wrap.
+        /// </summary>
+        private readonly TheoryDiscoverer theoryDiscoverer;
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="SkippableTheoryDiscoverer"/> class.
         /// </summary>
         /// <param name="diagnosticMessageSink">The message sink used to send diagnostic messages</param>
-        public SkippableFactDiscoverer(IMessageSink diagnosticMessageSink)
+        public SkippableTheoryDiscoverer(IMessageSink diagnosticMessageSink)
         {
             this.diagnosticMessageSink = diagnosticMessageSink;
+            this.theoryDiscoverer = new TheoryDiscoverer(diagnosticMessageSink);
         }
 
         /// <inheritdoc />
         public IEnumerable<IXunitTestCase> Discover(ITestFrameworkDiscoveryOptions discoveryOptions, ITestMethod testMethod, IAttributeInfo factAttribute)
         {
-            yield return new SkippableFactTestCase(this.diagnosticMessageSink, discoveryOptions.MethodDisplayOrDefault(), testMethod);
+            TestMethodDisplay defaultMethodDisplay = discoveryOptions.MethodDisplayOrDefault();
+
+            var basis = this.theoryDiscoverer.Discover(discoveryOptions, testMethod, factAttribute);
+            foreach (var testCase in basis)
+            {
+                if (testCase is XunitTheoryTestCase)
+                {
+                    yield return new SkippableTheoryTestCase(this.diagnosticMessageSink, defaultMethodDisplay, testCase.TestMethod);
+                }
+                else
+                {
+                    yield return new SkippableFactDiscoverer.SkippableFactTestCase(this.diagnosticMessageSink, defaultMethodDisplay, testCase.TestMethod, testCase.TestMethodArguments);
+                }
+            }
         }
 
         /// <summary>
-        /// A test case that interprets <see cref="SkipException"/> as a <see cref="TestSkipped"/> result.
+        /// A theory test case that will wrap the message bus.
         /// </summary>
-        internal class SkippableFactTestCase : XunitTestCase
+        private class SkippableTheoryTestCase : XunitTheoryTestCase
         {
             /// <summary>
-            /// Initializes a new instance of the <see cref="SkippableFactTestCase"/> class,
-            /// to be called only by the deserializer.
-            /// </summary>
-            [EditorBrowsable(EditorBrowsableState.Never)]
-            [Obsolete("Called by the de-serializer", true)]
-            public SkippableFactTestCase()
-            {
-            }
-
-            /// <summary>
-            /// Initializes a new instance of the <see cref="SkippableFactTestCase"/> class.
+            /// Initializes a new instance of the <see cref="SkippableTheoryTestCase"/> class.
             /// </summary>
             /// <param name="diagnosticMessageSink">The diagnostic message sink.</param>
             /// <param name="defaultMethodDisplay">The preferred test name derivation.</param>
             /// <param name="testMethod">The test method.</param>
-            /// <param name="testMethodArguments">The test method arguments.</param>
-            public SkippableFactTestCase(IMessageSink diagnosticMessageSink, TestMethodDisplay defaultMethodDisplay, ITestMethod testMethod, object[] testMethodArguments = null)
-                : base(diagnosticMessageSink, defaultMethodDisplay, testMethod, testMethodArguments)
+            public SkippableTheoryTestCase(IMessageSink diagnosticMessageSink, TestMethodDisplay defaultMethodDisplay, ITestMethod testMethod)
+                : base(diagnosticMessageSink, defaultMethodDisplay, testMethod)
             {
             }
 

@@ -12,5 +12,13 @@
         public void DoNotSkipMe()
         {
         }
+
+        [SkippableTheory]
+        [InlineData(true)]
+        [InlineData(false)]
+        public void SkipTheoryMaybe(bool skip)
+        {
+            Skip.If(skip, "I was told to.");
+        }
     }
 }

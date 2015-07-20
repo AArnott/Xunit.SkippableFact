@@ -68,6 +68,8 @@
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Sdk\SkippableFactDiscoverer.cs" />
+    <Compile Include="Sdk\SkippableTestMessageBus.cs" />
+    <Compile Include="Sdk\SkippableTheoryDiscoverer.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Xunit.SkippableFact\Xunit.SkippableFact.csproj">

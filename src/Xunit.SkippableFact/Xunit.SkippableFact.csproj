@@ -50,6 +50,7 @@
     <Compile Include="Skip.cs" />
     <Compile Include="SkipException.cs" />
     <Compile Include="SkippableFactAttribute.cs" />
+    <Compile Include="SkippableTheoryAttribute.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="Validation, Version=2.0.0.0, Culture=neutral, PublicKeyToken=2fc06f0d701809a7, processorArchitecture=MSIL">
