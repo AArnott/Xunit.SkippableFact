@@ -1,5 +1,5 @@
-﻿// Copyright (c) 2015 Andrew Arnott
-// Licensed under the Ms-PL
+﻿// Copyright (c) Andrew Arnott. All rights reserved.
+// Licensed under the Microsoft Public License (Ms-PL). See LICENSE.txt file in the project root for full license information.
 
 namespace Xunit
 {
@@ -14,7 +14,8 @@ namespace Xunit
         /// Initializes a new instance of the <see cref="SkipException"/> class.
         /// </summary>
         /// <param name="reason">The reason the test is skipped.</param>
-        public SkipException(string reason) : base(reason)
+        public SkipException(string reason)
+            : base(reason)
         {
         }
     }

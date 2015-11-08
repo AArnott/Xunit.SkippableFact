@@ -74,6 +74,9 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <None Include="..\stylecop.json">
+      <Link>stylecop.json</Link>
+    </None>
     <None Include="App.config" />
     <None Include="packages.config" />
     <None Include="Xunit.SkippableFact.Tests.ruleset" />
