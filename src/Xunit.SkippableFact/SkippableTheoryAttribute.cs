@@ -16,5 +16,14 @@
     [XunitTestCaseDiscoverer("Xunit.Sdk.SkippableTheoryDiscoverer", "Xunit.SkippableFact.{Platform}")]
     public class SkippableTheoryAttribute : TheoryAttribute
     {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="SkippableTheoryAttribute"/> class.
+        /// </summary>
+        /// <param name="skippingExceptions">
+        /// Exception types that, if thrown, should cause the test to register as skipped.
+        /// </param>
+        public SkippableTheoryAttribute(params Type[] skippingExceptions)
+        {
+        }
     }
 }

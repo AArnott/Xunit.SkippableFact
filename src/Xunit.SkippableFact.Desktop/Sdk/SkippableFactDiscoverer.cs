@@ -6,6 +6,7 @@ namespace Xunit.Sdk
     using System;
     using System.Collections.Generic;
     using System.ComponentModel;
+    using System.Linq;
     using System.Threading;
     using System.Threading.Tasks;
     using Abstractions;
@@ -33,7 +34,19 @@ namespace Xunit.Sdk
         /// <inheritdoc />
         public IEnumerable<IXunitTestCase> Discover(ITestFrameworkDiscoveryOptions discoveryOptions, ITestMethod testMethod, IAttributeInfo factAttribute)
         {
-            yield return new SkippableFactTestCase(this.diagnosticMessageSink, discoveryOptions.MethodDisplayOrDefault(), testMethod);
+            string[] skippingExceptionNames = GetSkippableExceptionNames(factAttribute);
+            yield return new SkippableFactTestCase(skippingExceptionNames, this.diagnosticMessageSink, discoveryOptions.MethodDisplayOrDefault(), testMethod);
+        }
+
+        internal static string[] GetSkippableExceptionNames(IAttributeInfo factAttribute)
+        {
+            var firstArgument = (object[])factAttribute.GetConstructorArguments().FirstOrDefault();
+            var skippingExceptions = firstArgument?.Cast<Type>().ToArray() ?? Type.EmptyTypes;
+            Array.Resize(ref skippingExceptions, skippingExceptions.Length + 1);
+            skippingExceptions[skippingExceptions.Length - 1] = typeof(SkipException);
+
+            var skippingExceptionNames = skippingExceptions.Select(ex => ex.FullName).ToArray();
+            return skippingExceptionNames;
         }
 
         /// <summary>
@@ -54,23 +67,40 @@ namespace Xunit.Sdk
             /// <summary>
             /// Initializes a new instance of the <see cref="SkippableFactTestCase"/> class.
             /// </summary>
+            /// <param name="skippingExceptionNames">An array of the full names of the exception types which should be interpreted as a skipped test-.</param>
             /// <param name="diagnosticMessageSink">The diagnostic message sink.</param>
             /// <param name="defaultMethodDisplay">The preferred test name derivation.</param>
             /// <param name="testMethod">The test method.</param>
             /// <param name="testMethodArguments">The test method arguments.</param>
-            public SkippableFactTestCase(IMessageSink diagnosticMessageSink, TestMethodDisplay defaultMethodDisplay, ITestMethod testMethod, object[] testMethodArguments = null)
+            public SkippableFactTestCase(string[] skippingExceptionNames, IMessageSink diagnosticMessageSink, TestMethodDisplay defaultMethodDisplay, ITestMethod testMethod, object[] testMethodArguments = null)
                 : base(diagnosticMessageSink, defaultMethodDisplay, testMethod, testMethodArguments)
             {
+                Requires.NotNull(skippingExceptionNames, nameof(skippingExceptionNames));
+                this.SkippingExceptionNames = skippingExceptionNames;
             }
+
+            internal string[] SkippingExceptionNames { get; private set; }
 
             /// <inheritdoc />
             public override async Task<RunSummary> RunAsync(IMessageSink diagnosticMessageSink, IMessageBus messageBus, object[] constructorArguments, ExceptionAggregator aggregator, CancellationTokenSource cancellationTokenSource)
             {
-                var messageBusInterceptor = new SkippableTestMessageBus(messageBus);
+                var messageBusInterceptor = new SkippableTestMessageBus(messageBus, this.SkippingExceptionNames);
                 var result = await base.RunAsync(diagnosticMessageSink, messageBusInterceptor, constructorArguments, aggregator, cancellationTokenSource);
                 result.Failed -= messageBusInterceptor.SkippedCount;
                 result.Skipped += messageBusInterceptor.SkippedCount;
                 return result;
+            }
+
+            public override void Serialize(IXunitSerializationInfo data)
+            {
+                base.Serialize(data);
+                data.AddValue(nameof(this.SkippingExceptionNames), this.SkippingExceptionNames);
+            }
+
+            public override void Deserialize(IXunitSerializationInfo data)
+            {
+                base.Deserialize(data);
+                this.SkippingExceptionNames = data.GetValue<string[]>(nameof(this.SkippingExceptionNames));
             }
         }
     }

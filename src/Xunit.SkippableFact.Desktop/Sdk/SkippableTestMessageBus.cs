@@ -23,12 +23,17 @@
         /// Initializes a new instance of the <see cref="SkippableTestMessageBus"/> class.
         /// </summary>
         /// <param name="inner">The original message bus to which all messages should be forwarded.</param>
-        internal SkippableTestMessageBus(IMessageBus inner)
+        /// <param name="skippingExceptionNames">An array of the full names of the exception types which should be interpreted as a skipped test-.</param>
+        internal SkippableTestMessageBus(IMessageBus inner, string[] skippingExceptionNames)
         {
             Requires.NotNull(inner, nameof(inner));
+            Requires.NotNull(skippingExceptionNames, nameof(skippingExceptionNames));
 
             this.inner = inner;
+            this.SkippingExceptionNames = skippingExceptionNames;
         }
+
+        internal string[] SkippingExceptionNames { get; }
 
         /// <summary>
         /// Gets the number of tests that have been dynamically skipped.
@@ -49,7 +54,7 @@
             var failed = message as TestFailed;
             if (failed != null)
             {
-                if (failed.ExceptionTypes.Length == 1 && failed.ExceptionTypes[0] == typeof(SkipException).FullName)
+                if (failed.ExceptionTypes.Length == 1 && Array.IndexOf(this.SkippingExceptionNames, failed.ExceptionTypes[0]) >= 0)
                 {
                     this.SkippedCount++;
                     return this.inner.QueueMessage(new TestSkipped(failed.Test, failed.Messages[0]));

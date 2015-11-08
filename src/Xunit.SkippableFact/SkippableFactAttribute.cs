@@ -16,5 +16,14 @@ namespace Xunit
     [XunitTestCaseDiscoverer("Xunit.Sdk.SkippableFactDiscoverer", "Xunit.SkippableFact.{Platform}")]
     public class SkippableFactAttribute : FactAttribute
     {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="SkippableFactAttribute"/> class.
+        /// </summary>
+        /// <param name="skippingExceptions">
+        /// Exception types that, if thrown, should cause the test to register as skipped.
+        /// </param>
+        public SkippableFactAttribute(params Type[] skippingExceptions)
+        {
+        }
     }
 }
