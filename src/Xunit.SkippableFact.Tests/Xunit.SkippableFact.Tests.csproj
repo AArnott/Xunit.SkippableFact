@@ -45,10 +45,6 @@
       <Project>{ea6330cc-b135-405d-af9b-bd802b508985}</Project>
       <Name>Xunit.SkippableFact</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Xunit.SkippableFact.Desktop\Xunit.SkippableFact.Desktop.csproj">
-      <!--<ReferenceOutputAssembly>false</ReferenceOutputAssembly>-->
-      <Name>Xunit.SkippableFact.Desktop</Name>
-    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />

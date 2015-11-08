@@ -41,7 +41,7 @@ namespace Xunit.Sdk
         internal static string[] GetSkippableExceptionNames(IAttributeInfo factAttribute)
         {
             var firstArgument = (object[])factAttribute.GetConstructorArguments().FirstOrDefault();
-            var skippingExceptions = firstArgument?.Cast<Type>().ToArray() ?? Type.EmptyTypes;
+            var skippingExceptions = firstArgument?.Cast<Type>().ToArray() ?? new Type[0];
             Array.Resize(ref skippingExceptions, skippingExceptions.Length + 1);
             skippingExceptions[skippingExceptions.Length - 1] = typeof(SkipException);
 
