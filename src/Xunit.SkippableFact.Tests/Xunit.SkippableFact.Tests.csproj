@@ -28,7 +28,8 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <CodeAnalysisRuleSet>Xunit.SkippableFact.Tests.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRuleSet>
+    </CodeAnalysisRuleSet>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -37,10 +38,15 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <CodeAnalysisRuleSet>Xunit.SkippableFact.Tests.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRuleSet>
+    </CodeAnalysisRuleSet>
   </PropertyGroup>
   <ItemGroup>
     <!-- A reference to the entire .NET Framework is automatically included -->
+    <ProjectReference Include="..\Xunit.SkippableFact.Dotnet\Xunit.SkippableFact.Dotnet.csproj">
+      <Project>{dc7dc3b8-fb6b-424b-a302-b0f090d014b5}</Project>
+      <Name>Xunit.SkippableFact.Dotnet</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Xunit.SkippableFact\Xunit.SkippableFact.csproj">
       <Project>{ea6330cc-b135-405d-af9b-bd802b508985}</Project>
       <Name>Xunit.SkippableFact</Name>

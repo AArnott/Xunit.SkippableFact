@@ -11,6 +11,8 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Xunit.SkippableFact.Desktop\Xunit.SkippableFact.Desktop.csproj" />
+    <ProjectReference Include="..\Xunit.SkippableFact.Dotnet\Xunit.SkippableFact.Dotnet.csproj" />
     <ProjectReference Include="..\Xunit.SkippableFact\Xunit.SkippableFact.csproj" />
   </ItemGroup>
   <ItemGroup>
