@@ -8,8 +8,8 @@
     <ProjectGuid>{DC7DC3B8-FB6B-424B-A302-B0F090D014B5}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Xunit.SkippableFact.Dotnet</RootNamespace>
-    <AssemblyName>Xunit.SkippableFact.Dotnet</AssemblyName>
+    <RootNamespace>Xunit</RootNamespace>
+    <AssemblyName>Xunit.SkippableFact.dotnet</AssemblyName>
     <DefaultLanguage>en-US</DefaultLanguage>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{786C830F-07A1-408B-BD7F-6EE04809D6DB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
