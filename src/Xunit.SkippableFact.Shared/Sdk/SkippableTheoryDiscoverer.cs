@@ -5,6 +5,7 @@ namespace Xunit.Sdk
 {
     using System;
     using System.Collections.Generic;
+    using System.ComponentModel;
     using System.Linq;
     using System.Text;
     using System.Threading;
@@ -62,6 +63,16 @@ namespace Xunit.Sdk
         /// </summary>
         private class SkippableTheoryTestCase : XunitTheoryTestCase
         {
+            /// <summary>
+            /// Initializes a new instance of the <see cref="SkippableTheoryTestCase"/> class,
+            /// to be called only by the deserializer.
+            /// </summary>
+            [EditorBrowsable(EditorBrowsableState.Never)]
+            [Obsolete("Called by the de-serializer", true)]
+            public SkippableTheoryTestCase()
+            {
+            }
+
             /// <summary>
             /// Initializes a new instance of the <see cref="SkippableTheoryTestCase"/> class.
             /// </summary>
