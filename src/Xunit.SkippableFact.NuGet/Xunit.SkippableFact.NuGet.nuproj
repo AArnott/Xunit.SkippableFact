@@ -13,7 +13,6 @@
   <ItemGroup>
     <ProjectReference Include="..\Xunit.SkippableFact.Desktop\Xunit.SkippableFact.Desktop.csproj" />
     <ProjectReference Include="..\Xunit.SkippableFact.Dotnet\Xunit.SkippableFact.Dotnet.csproj" />
-    <ProjectReference Include="..\Xunit.SkippableFact\Xunit.SkippableFact.csproj" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="build\Xunit.SkippableFact.props" />
@@ -23,7 +22,7 @@
     <VersionDependsOn>$(VersionDependsOn);GetNuPkgVersion</VersionDependsOn>
   </PropertyGroup>
   <PropertyGroup>
-    <NuProjPath Condition=" '$(NuProjPath)' == '' ">..\..\packages\NuProj.0.10.0-beta-gd6d4e1ff23\tools\</NuProjPath>
+    <NuProjPath Condition=" '$(NuProjPath)' == '' ">..\..\packages\NuProj.0.10.18-beta-gcd398090a4\tools\</NuProjPath>
   </PropertyGroup>
   <Import Project="$(NuProjPath)\NuProj.props" Condition="Exists('$(NuProjPath)\NuProj.props')" />
   <PropertyGroup Label="Configuration">
@@ -41,6 +40,7 @@
     <Tags>xunit testing skipping</Tags>
     <GenerateSymbolPackage>true</GenerateSymbolPackage>
     <EmbedSourceFiles>true</EmbedSourceFiles>
+    <NoPackageAnalysis>true</NoPackageAnalysis>
   </PropertyGroup>
   <Import Project="$(NuProjPath)\NuProj.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
@@ -54,5 +54,13 @@
     <PropertyGroup>
       <Version>$(NuGetPackageVersion)</Version>
     </PropertyGroup>
+  </Target>
+  <Target Name="MovePlatformExecutionAssemblies" AfterTargets="GetPackageFiles" DependsOnTargets="GetPackageFiles">
+    <ItemGroup>
+      <PackageFile>
+        <TargetPath Condition=" '%(FileName)' == 'xunit.skippablefact.desktop' ">build\%(FileName)%(Extension)</TargetPath>
+        <TargetPath Condition=" '%(FileName)' == 'xunit.skippablefact.dotnet' ">build\%(FileName)%(Extension)</TargetPath>
+      </PackageFile>
+    </ItemGroup>
   </Target>
 </Project>
