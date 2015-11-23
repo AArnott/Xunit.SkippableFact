@@ -68,7 +68,6 @@
   <ItemGroup>
     <None Include="App.config" />
     <None Include="packages.config" />
-    <None Include="version.json" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Xunit.SkippableFact\Xunit.SkippableFact.csproj">
