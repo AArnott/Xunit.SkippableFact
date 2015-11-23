@@ -77,6 +77,14 @@
     <None Include="App.config" />
     <None Include="packages.config" />
     <None Include="Xunit.SkippableFact.Tests.ruleset" />
+    <None Include="
+          ..\Xunit.SkippableFact.Desktop\bin\$(Configuration)\Xunit.SkippableFact.desktop.dll;
+          ..\Xunit.SkippableFact.Dotnet\bin\$(Configuration)\Xunit.SkippableFact.dotnet.dll;
+          ">
+      <Link>%(Filename)%(Extension)</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <Visible>False</Visible>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <Service Include="{82A7F48D-3B50-4B1E-B82E-3ADA8210C358}" />
@@ -92,15 +100,4 @@
     <Error Condition="!Exists('..\..\packages\xunit.runner.visualstudio.2.1.0\build\portable-net45+win8+wp8+wpa81\xunit.runner.visualstudio.props')" Text="$([System.String]::Format('$(ErrorText)', '..\..\packages\xunit.runner.visualstudio.2.1.0\build\portable-net45+win8+wp8+wpa81\xunit.runner.visualstudio.props'))" />
   </Target>
   <Import Project="..\..\packages\Nerdbank.GitVersioning.1.1.52-rc\build\portable-net+win+wpa+wp+sl+net-cf+netmf+MonoAndroid+MonoTouch+Xamarin.iOS\Nerdbank.GitVersioning.targets" Condition="Exists('..\..\packages\Nerdbank.GitVersioning.1.1.52-rc\build\portable-net+win+wpa+wp+sl+net-cf+netmf+MonoAndroid+MonoTouch+Xamarin.iOS\Nerdbank.GitVersioning.targets')" />
-  <PropertyGroup>
-    <PostBuildEvent>copy $(SolutionDir)Xunit.SkippableFact.Desktop\bin\$(Configuration)\Xunit.SkippableFact.desktop.dll
-copy $(SolutionDir)Xunit.SkippableFact.Dotnet\bin\$(Configuration)\Xunit.SkippableFact.dotnet.dll</PostBuildEvent>
-  </PropertyGroup>
-  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
-       Other similar extension points exist, see Microsoft.Common.targets.
-  <Target Name="BeforeBuild">
-  </Target>
-  <Target Name="AfterBuild">
-  </Target>
-  -->
 </Project>
