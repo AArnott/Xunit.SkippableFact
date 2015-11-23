@@ -16,6 +16,7 @@
     <ProjectReference Include="..\Xunit.SkippableFact\Xunit.SkippableFact.csproj" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="build\Xunit.SkippableFact.props" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>f4735a6d-589a-4a18-8238-e5ff0764f417</ProjectGuid>
