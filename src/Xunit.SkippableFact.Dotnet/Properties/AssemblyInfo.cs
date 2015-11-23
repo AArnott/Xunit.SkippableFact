@@ -4,7 +4,7 @@
 using System.Reflection;
 using System.Resources;
 
-[assembly: AssemblyTitle("Xunit.SkippableFact")]
+[assembly: AssemblyTitle("Xunit.SkippableFact.Dotnet")]
 [assembly: AssemblyProduct("Xunit.SkippableFact")]
 [assembly: AssemblyCopyright("Copyright ©  2015")]
 [assembly: NeutralResourcesLanguage("en")]
