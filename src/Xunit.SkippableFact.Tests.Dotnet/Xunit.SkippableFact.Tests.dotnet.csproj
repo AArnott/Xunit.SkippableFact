@@ -40,6 +40,18 @@
   </PropertyGroup>
   <ItemGroup>
     <!-- A reference to the entire .NET Framework is automatically included -->
+    <ProjectReference Include="..\Xunit.SkippableFact.Dotnet\Xunit.SkippableFact.Dotnet.csproj">
+      <Project>{dc7dc3b8-fb6b-424b-a302-b0f090d014b5}</Project>
+      <Name>Xunit.SkippableFact.Dotnet</Name>
+      <!-- This reference is to enforce build order only. -->
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+    </ProjectReference>
+    <ProjectReference Include="..\Xunit.SkippableFact.Desktop\Xunit.SkippableFact.Desktop.csproj">
+      <Project>{F12DD7E3-22D5-4EC4-AA9B-A42A03D0798E}</Project>
+      <Name>Xunit.SkippableFact.Desktop</Name>
+      <!-- This reference is to enforce build order only. -->
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+    </ProjectReference>
     <ProjectReference Include="..\Xunit.SkippableFact\Xunit.SkippableFact.csproj">
       <Project>{ea6330cc-b135-405d-af9b-bd802b508985}</Project>
       <Name>Xunit.SkippableFact</Name>
@@ -77,10 +89,7 @@
     <None Include="App.config" />
     <None Include="packages.config" />
     <None Include="Xunit.SkippableFact.Tests.ruleset" />
-    <None Include="
-          ..\Xunit.SkippableFact.Desktop\bin\$(Configuration)\Xunit.SkippableFact.desktop.dll;
-          ..\Xunit.SkippableFact.Dotnet\bin\$(Configuration)\Xunit.SkippableFact.dotnet.dll;
-          ">
+    <None Include="&#xD;&#xA;          ..\Xunit.SkippableFact.Desktop\bin\$(Configuration)\Xunit.SkippableFact.desktop.dll;&#xD;&#xA;          ..\Xunit.SkippableFact.Dotnet\bin\$(Configuration)\Xunit.SkippableFact.dotnet.dll;&#xD;&#xA;          ">
       <Link>%(Filename)%(Extension)</Link>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <Visible>False</Visible>

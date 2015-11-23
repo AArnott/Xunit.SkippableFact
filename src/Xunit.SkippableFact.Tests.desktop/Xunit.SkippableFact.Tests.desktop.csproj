@@ -81,6 +81,12 @@
       <Project>{ea6330cc-b135-405d-af9b-bd802b508985}</Project>
       <Name>Xunit.SkippableFact</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Xunit.SkippableFact.Desktop\Xunit.SkippableFact.Desktop.csproj">
+      <Project>{F12DD7E3-22D5-4EC4-AA9B-A42A03D0798E}</Project>
+      <Name>Xunit.SkippableFact.Desktop</Name>
+      <!-- This reference is to enforce build order only. -->
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Service Include="{82A7F48D-3B50-4B1E-B82E-3ADA8210C358}" />

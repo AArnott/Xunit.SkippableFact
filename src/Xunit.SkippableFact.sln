@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
-VisualStudioVersion = 14.0.23107.0
+VisualStudioVersion = 14.0.24711.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Xunit.SkippableFact", "Xunit.SkippableFact\Xunit.SkippableFact.csproj", "{EA6330CC-B135-405D-AF9B-BD802B508985}"
 EndProject
@@ -25,15 +25,8 @@ EndProject
 Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "Xunit.SkippableFact.Tests.Shared", "Xunit.SkippableFact.Tests.Shared\Xunit.SkippableFact.Tests.Shared.shproj", "{432FC0E6-0B31-4F2D-A2CE-D8CA86E15399}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Xunit.SkippableFact.Tests.Dotnet", "Xunit.SkippableFact.Tests.Dotnet\Xunit.SkippableFact.Tests.Dotnet.csproj", "{81D4F7CC-A88A-40E4-A1D2-A34BDE0BC2DF}"
-	ProjectSection(ProjectDependencies) = postProject
-		{DC7DC3B8-FB6B-424B-A302-B0F090D014B5} = {DC7DC3B8-FB6B-424B-A302-B0F090D014B5}
-		{F12DD7E3-22D5-4EC4-AA9B-A42A03D0798E} = {F12DD7E3-22D5-4EC4-AA9B-A42A03D0798E}
-	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Xunit.SkippableFact.Tests.Desktop", "Xunit.SkippableFact.Tests.Desktop\Xunit.SkippableFact.Tests.Desktop.csproj", "{CE5F06BC-8553-42A1-A7F0-3FEEE1B9373F}"
-	ProjectSection(ProjectDependencies) = postProject
-		{F12DD7E3-22D5-4EC4-AA9B-A42A03D0798E} = {F12DD7E3-22D5-4EC4-AA9B-A42A03D0798E}
-	EndProjectSection
 EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
