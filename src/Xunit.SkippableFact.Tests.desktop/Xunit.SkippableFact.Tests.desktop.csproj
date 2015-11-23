@@ -95,5 +95,8 @@
     <Error Condition="!Exists('..\..\packages\Nerdbank.GitVersioning.1.1.52-rc\build\dotnet\Nerdbank.GitVersioning.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\..\packages\Nerdbank.GitVersioning.1.1.52-rc\build\dotnet\Nerdbank.GitVersioning.targets'))" />
   </Target>
   <PropertyGroup>
+    <StartAction>Program</StartAction>
+    <StartProgram>$(MSBuildProjectDirectory)\..\..\packages\xunit.runner.console.2.2.0-beta1-build3217\tools\xunit.console.exe</StartProgram>
+    <StartArguments>"$(TargetPath)" -serialize</StartArguments>
   </PropertyGroup>
 </Project>
