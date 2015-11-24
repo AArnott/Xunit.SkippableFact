@@ -57,9 +57,15 @@
   </Target>
   <Target Name="MovePlatformExecutionAssemblies" AfterTargets="GetPackageFiles" DependsOnTargets="GetPackageFiles">
     <ItemGroup>
+      <!-- MOVE desktop execution assembly to the build folder. -->
       <PackageFile>
         <TargetPath Condition=" '%(FileName)' == 'xunit.skippablefact.desktop' ">build\%(FileName)%(Extension)</TargetPath>
-        <TargetPath Condition=" '%(FileName)' == 'xunit.skippablefact.dotnet' ">build\%(FileName)%(Extension)</TargetPath>
+      </PackageFile>
+
+      <!-- COPY dotnet assembly to the build folder as well. -->
+      <PackageFile Include="@(PackageFile)"
+                   Condition=" '%(FileName)' == 'xunit.skippablefact.dotnet' ">
+        <TargetPath>build\%(FileName)%(Extension)</TargetPath>
       </PackageFile>
     </ItemGroup>
   </Target>
