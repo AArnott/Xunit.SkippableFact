@@ -32,6 +32,19 @@ namespace Xunit.SkippableFact.Tests
         {
         }
 
+        [SkippableFact(typeof(NotSupportedException))]
+        public void SkipByOtherException_Nested()
+        {
+            try
+            {
+                throw new InvalidOperationException();
+            }
+            catch (InvalidOperationException ex)
+            {
+                throw new NotSupportedException(ex.Message, ex);
+            }
+        }
+
         [SkippableTheory(typeof(NotImplementedException))]
         [InlineData(true)]
         [InlineData(false)]

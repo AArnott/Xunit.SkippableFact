@@ -57,7 +57,8 @@ namespace Xunit.Sdk
             var failed = message as TestFailed;
             if (failed != null)
             {
-                if (failed.ExceptionTypes.Length == 1 && Array.IndexOf(this.SkippingExceptionNames, failed.ExceptionTypes[0]) >= 0)
+                var outerException = failed.ExceptionTypes.FirstOrDefault();
+                if (outerException != null && Array.IndexOf(this.SkippingExceptionNames, outerException) >= 0)
                 {
                     this.SkippedCount++;
                     return this.inner.QueueMessage(new TestSkipped(failed.Test, failed.Messages[0]));
