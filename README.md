@@ -2,6 +2,7 @@ Xunit.SkippableFact
 ======================
 
 [![Build status](https://ci.appveyor.com/api/projects/status/06titf9dsyu2xoms/branch/master?svg=true)](https://ci.appveyor.com/project/AArnott/xunit-skippablefact/branch/master)
+[![NuGet package](https://img.shields.io/nuget/v/xunit.skippablefact.svg)](https://nuget.org/packages/xunit.skippablefact)
 
 This project allows for Xunit tests that can determine during execution
 that they should report a "skipped" result. This can be useful when
