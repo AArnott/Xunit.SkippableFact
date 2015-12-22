@@ -15,12 +15,14 @@ This project is available as a [NuGet package][NuPkg]
 
 ## Example
 
-    [SkippableFact]
-    public void SomeTestForWindowsOnly()
-    {
-        Skip.IfNot(Environment.IsWindows);
+```csharp
+[SkippableFact]
+public void SomeTestForWindowsOnly()
+{
+    Skip.IfNot(Environment.IsWindows);
 
-        // Test Windows only functionality.
-    }
+    // Test Windows only functionality.
+}
+```
 
- [NuPkg]: https://www.nuget.org/packages/Xunit.SkippableFact
+[NuPkg]: https://www.nuget.org/packages/Xunit.SkippableFact
