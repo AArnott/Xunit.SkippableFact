@@ -15,7 +15,9 @@
     <ProjectReference Include="..\Xunit.SkippableFact.Dotnet\Xunit.SkippableFact.Dotnet.csproj" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="build\Xunit.SkippableFact.props" />
+    <Content Include="build\net452\Xunit.SkippableFact.props" />
+    <Content Include="build\portable-net45+win+wpa81+wp80+MonoAndroid10+xamarinios10+MonoTouch10\Xunit.SkippableFact.props" />
+    <Content Include="build\_Xunit.SkippableFact.props" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>f4735a6d-589a-4a18-8238-e5ff0764f417</ProjectGuid>
@@ -61,10 +63,8 @@
       <PackageFile>
         <TargetPath Condition=" '%(FileName)' == 'xunit.skippablefact.desktop' ">build\%(FileName)%(Extension)</TargetPath>
       </PackageFile>
-
       <!-- COPY dotnet assembly to the build folder as well. -->
-      <PackageFile Include="@(PackageFile)"
-                   Condition=" '%(FileName)' == 'xunit.skippablefact.dotnet' ">
+      <PackageFile Include="@(PackageFile)" Condition=" '%(FileName)' == 'xunit.skippablefact.dotnet' ">
         <TargetPath>build\%(FileName)%(Extension)</TargetPath>
       </PackageFile>
     </ItemGroup>
