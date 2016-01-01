@@ -15,7 +15,7 @@
     <ProjectReference Include="..\Xunit.SkippableFact.Dotnet\Xunit.SkippableFact.Dotnet.csproj" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="build\net452\Xunit.SkippableFact.props" />
+    <Content Include="build\net45\Xunit.SkippableFact.props" />
     <Content Include="build\portable-net45+win+wpa81+wp80+MonoAndroid10+xamarinios10+MonoTouch10\Xunit.SkippableFact.props" />
     <Content Include="build\_Xunit.SkippableFact.props" />
   </ItemGroup>
