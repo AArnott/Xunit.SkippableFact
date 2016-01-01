@@ -9,12 +9,4 @@
       <Visible>False</Visible>
     </None>
   </ItemGroup>
-
-  <Target Name="AddXunitSkippableFactExecutionLibs" AfterTargets="_ComputeAppxPackagePayload" BeforeTargets="_GenerateAppxManifest">
-    <ItemGroup>
-      <AppxPackagePayload Include="@(XunitSkippableFactExecutionLibs)">
-        <TargetPath>%(FileName)%(Extension)</TargetPath>
-      </AppxPackagePayload>
-    </ItemGroup>
-  </Target>
 </Project>
