@@ -16,7 +16,7 @@ namespace Xunit
     /// <see cref="Skip.If(bool, string)"/> or otherwise throwing a <see cref="SkipException"/>.
     /// </summary>
     [AttributeUsage(AttributeTargets.Method, AllowMultiple = false)]
-    [XunitTestCaseDiscoverer("Xunit.Sdk.SkippableTheoryDiscoverer", "Xunit.SkippableFact.{Platform}")]
+    [XunitTestCaseDiscoverer("Xunit.Sdk.SkippableTheoryDiscoverer", ThisAssembly.AssemblyName)]
     public class SkippableTheoryAttribute : TheoryAttribute
     {
         /// <summary>

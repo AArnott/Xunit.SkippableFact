@@ -13,7 +13,7 @@ namespace Xunit
     /// <see cref="Skip.If(bool, string)"/> or otherwise throwing a <see cref="SkipException"/>.
     /// </summary>
     [AttributeUsage(AttributeTargets.Method, AllowMultiple = false)]
-    [XunitTestCaseDiscoverer("Xunit.Sdk.SkippableFactDiscoverer", "Xunit.SkippableFact.{Platform}")]
+    [XunitTestCaseDiscoverer("Xunit.Sdk.SkippableFactDiscoverer", ThisAssembly.AssemblyName)]
     public class SkippableFactAttribute : FactAttribute
     {
         /// <summary>
