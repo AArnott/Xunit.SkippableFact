@@ -102,6 +102,21 @@ namespace Xunit.Sdk
                 base.Deserialize(data);
                 this.SkippingExceptionNames = data.GetValue<string[]>(nameof(this.SkippingExceptionNames));
             }
+
+            protected override string GetSkipReason(IAttributeInfo factAttribute)
+            {
+                var reason = this.TestMethod.GetSkipTestsReason();
+                if (string.IsNullOrEmpty(reason))
+                {
+                    reason = base.GetSkipReason(factAttribute);
+                    if (!string.IsNullOrEmpty(reason))
+                    {
+                        reason = $"Method: {reason}";
+                    }
+                }
+
+                return reason;
+            }
         }
     }
 }
