@@ -25,4 +25,17 @@ public void SomeTestForWindowsOnly()
 }
 ```
 
+You can also automatically report tests as skipped based on specific exception types.
+This is particularly useful when the test runs against multiple target frameworks and
+your library is not expected to be implemented in some of them. For example:
+
+```csharp
+[SkippableFact(typeof(NotSupportedException), typeof(NotImplementedException))]
+public void TestFunctionalityWhichIsNotSupportedOnSomePlatforms()
+{
+    // Test functionality. If it throws any of the exceptions listed in the attribute,
+    // a skip result is reported instead of a failure.
+}
+```
+
 [NuPkg]: https://www.nuget.org/packages/Xunit.SkippableFact
