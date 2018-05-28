@@ -20,6 +20,7 @@
     <PackageReference Include="xunit.extensibility.execution" Version="2.1.0" Condition=" '$(TargetFramework)' == 'net45' " />
     <PackageReference Include="xunit.extensibility.execution" Version="2.2.0" Condition=" '$(TargetFramework)' != 'net45' " />
     <PackageReference Include="StyleCop.Analyzers" Version="1.0.0" PrivateAssets="all" />
+    <PackageReference Update="NETStandard.Library" PrivateAssets="all" />
   </ItemGroup>
   <Target Name="SetNuSpecProperties" BeforeTargets="GenerateNuspec" DependsOnTargets="GetBuildVersion">
     <PropertyGroup>
