@@ -17,8 +17,7 @@
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="Validation" Version="2.4.15" PrivateAssets="compile;contentfiles;analyzers;build" />
-    <PackageReference Include="xunit.extensibility.execution" Version="2.1.0" Condition=" '$(TargetFramework)' == 'net45' " />
-    <PackageReference Include="xunit.extensibility.execution" Version="2.2.0" Condition=" '$(TargetFramework)' != 'net45' " />
+    <PackageReference Include="xunit.extensibility.execution" Version="2.4.0" />
     <PackageReference Include="StyleCop.Analyzers" Version="1.0.0" PrivateAssets="all" />
     <PackageReference Update="NETStandard.Library" PrivateAssets="all" />
   </ItemGroup>

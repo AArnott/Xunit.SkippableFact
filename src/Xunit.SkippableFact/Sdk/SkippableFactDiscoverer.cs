@@ -35,7 +35,7 @@ namespace Xunit.Sdk
         public IEnumerable<IXunitTestCase> Discover(ITestFrameworkDiscoveryOptions discoveryOptions, ITestMethod testMethod, IAttributeInfo factAttribute)
         {
             string[] skippingExceptionNames = GetSkippableExceptionNames(factAttribute);
-            yield return new SkippableFactTestCase(skippingExceptionNames, this.diagnosticMessageSink, discoveryOptions.MethodDisplayOrDefault(), testMethod);
+            yield return new SkippableFactTestCase(skippingExceptionNames, this.diagnosticMessageSink, discoveryOptions.MethodDisplayOrDefault(), discoveryOptions.MethodDisplayOptionsOrDefault(), testMethod);
         }
 
         internal static string[] GetSkippableExceptionNames(IAttributeInfo factAttribute)
@@ -70,10 +70,11 @@ namespace Xunit.Sdk
             /// <param name="skippingExceptionNames">An array of the full names of the exception types which should be interpreted as a skipped test-.</param>
             /// <param name="diagnosticMessageSink">The diagnostic message sink.</param>
             /// <param name="defaultMethodDisplay">The preferred test name derivation.</param>
+            /// <param name="defaultMethodDisplayOptions">Default method display options to use (when not customized).</param>
             /// <param name="testMethod">The test method.</param>
             /// <param name="testMethodArguments">The test method arguments.</param>
-            public SkippableFactTestCase(string[] skippingExceptionNames, IMessageSink diagnosticMessageSink, TestMethodDisplay defaultMethodDisplay, ITestMethod testMethod, object[] testMethodArguments = null)
-                : base(diagnosticMessageSink, defaultMethodDisplay, testMethod, testMethodArguments)
+            public SkippableFactTestCase(string[] skippingExceptionNames, IMessageSink diagnosticMessageSink, TestMethodDisplay defaultMethodDisplay, TestMethodDisplayOptions defaultMethodDisplayOptions, ITestMethod testMethod, object[] testMethodArguments = null)
+                : base(diagnosticMessageSink, defaultMethodDisplay, defaultMethodDisplayOptions, testMethod, testMethodArguments)
             {
                 Requires.NotNull(skippingExceptionNames, nameof(skippingExceptionNames));
                 this.SkippingExceptionNames = skippingExceptionNames;

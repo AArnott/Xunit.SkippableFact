@@ -43,17 +43,18 @@ namespace Xunit.Sdk
         {
             string[] skippingExceptionNames = SkippableFactDiscoverer.GetSkippableExceptionNames(factAttribute);
             TestMethodDisplay defaultMethodDisplay = discoveryOptions.MethodDisplayOrDefault();
+            TestMethodDisplayOptions defaultMethodDisplayOptions = discoveryOptions.MethodDisplayOptionsOrDefault();
 
             var basis = this.theoryDiscoverer.Discover(discoveryOptions, testMethod, factAttribute);
             foreach (var testCase in basis)
             {
                 if (testCase is XunitTheoryTestCase)
                 {
-                    yield return new SkippableTheoryTestCase(skippingExceptionNames, this.diagnosticMessageSink, defaultMethodDisplay, testCase.TestMethod);
+                    yield return new SkippableTheoryTestCase(skippingExceptionNames, this.diagnosticMessageSink, defaultMethodDisplay, defaultMethodDisplayOptions, testCase.TestMethod);
                 }
                 else
                 {
-                    yield return new SkippableFactDiscoverer.SkippableFactTestCase(skippingExceptionNames, this.diagnosticMessageSink, defaultMethodDisplay, testCase.TestMethod, testCase.TestMethodArguments);
+                    yield return new SkippableFactDiscoverer.SkippableFactTestCase(skippingExceptionNames, this.diagnosticMessageSink, defaultMethodDisplay, defaultMethodDisplayOptions, testCase.TestMethod, testCase.TestMethodArguments);
                 }
             }
         }
@@ -79,9 +80,10 @@ namespace Xunit.Sdk
             /// <param name="skippingExceptionNames">An array of the full names of the exception types which should be interpreted as a skipped test-.</param>
             /// <param name="diagnosticMessageSink">The diagnostic message sink.</param>
             /// <param name="defaultMethodDisplay">The preferred test name derivation.</param>
+            /// <param name="defaultMethodDisplayOptions">Default method display options to use (when not customized).</param>
             /// <param name="testMethod">The test method.</param>
-            public SkippableTheoryTestCase(string[] skippingExceptionNames, IMessageSink diagnosticMessageSink, TestMethodDisplay defaultMethodDisplay, ITestMethod testMethod)
-                : base(diagnosticMessageSink, defaultMethodDisplay, testMethod)
+            public SkippableTheoryTestCase(string[] skippingExceptionNames, IMessageSink diagnosticMessageSink, TestMethodDisplay defaultMethodDisplay, TestMethodDisplayOptions defaultMethodDisplayOptions, ITestMethod testMethod)
+                : base(diagnosticMessageSink, defaultMethodDisplay, defaultMethodDisplayOptions, testMethod)
             {
                 Requires.NotNull(skippingExceptionNames, nameof(skippingExceptionNames));
                 this.SkippingExceptionNames = skippingExceptionNames;
