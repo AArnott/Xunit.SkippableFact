@@ -59,7 +59,7 @@ namespace Xunit.Sdk
             {
                 var outerException = failed.ExceptionTypes.FirstOrDefault();
                 if ((outerException != null && Array.IndexOf(this.SkippingExceptionNames, outerException) >= 0) ||
-                    (outerException == "Xunit.Sdk.ThrowsException" && this.SkippingExceptionNames.Any(e => failed.Messages.Any(m => m.Contains($"Actual:   typeof({e})")))))
+                    (outerException == "Xunit.Sdk.ThrowsException" && this.SkippingExceptionNames.Any(e => failed.Messages.Any(m => m.Contains($"Actual:   typeof({typeof(SkipException).FullName})")))))
                 {
                     this.SkippedCount++;
                     return this.inner.QueueMessage(new TestSkipped(failed.Test, failed.Messages[0]));
