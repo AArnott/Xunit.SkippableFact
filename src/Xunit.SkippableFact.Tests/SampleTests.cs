@@ -63,5 +63,15 @@ namespace Xunit.SkippableFact.Tests
         {
             Skip.If(skip, "I was told to.");
         }
+
+        [SkippableFact]
+        public void SkipInsideAssertThrows()
+        {
+            Assert.Throws<Exception>(new Action(() =>
+            {
+                Skip.If(true, "Skip inside Assert.Throws");
+                throw new Exception();
+            }));
+        }
     }
 }
