@@ -16,10 +16,10 @@
     <PackageTags>xunit testing skipping</PackageTags>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="Validation" Version="2.4.15" PrivateAssets="compile;contentfiles;analyzers;build" />
+    <PackageReference Include="Validation" Version="2.4.18" PrivateAssets="compile;contentfiles;analyzers;build" />
     <PackageReference Include="xunit.extensibility.execution" Version="2.1.0" Condition=" '$(TargetFramework)' == 'net45' " />
-    <PackageReference Include="xunit.extensibility.execution" Version="2.2.0" Condition=" '$(TargetFramework)' != 'net45' " />
-    <PackageReference Include="StyleCop.Analyzers" Version="1.0.0" PrivateAssets="all" />
+    <PackageReference Include="xunit.extensibility.execution" Version="2.4.0" Condition=" '$(TargetFramework)' != 'net45' " />
+    <PackageReference Include="StyleCop.Analyzers" Version="1.0.2" PrivateAssets="all" />
     <PackageReference Update="NETStandard.Library" PrivateAssets="all" />
   </ItemGroup>
   <Target Name="SetNuSpecProperties" BeforeTargets="GenerateNuspec" DependsOnTargets="GetBuildVersion">

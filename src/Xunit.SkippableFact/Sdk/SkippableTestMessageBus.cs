@@ -58,14 +58,36 @@ namespace Xunit.Sdk
             if (failed != null)
             {
                 var outerException = failed.ExceptionTypes.FirstOrDefault();
-                if (outerException != null && Array.IndexOf(this.SkippingExceptionNames, outerException) >= 0)
+                bool skipTest = false;
+                string skipReason = null;
+                switch (outerException)
+                {
+                    case string _ when this.ShouldSkipException(outerException):
+                        skipTest = true;
+                        skipReason = failed.Messages.FirstOrDefault();
+                        break;
+                    case "Xunit.Sdk.ThrowsException" when failed.ExceptionTypes.Length > 1:
+                        outerException = failed.ExceptionTypes[1];
+                        if (this.ShouldSkipException(outerException))
+                        {
+                            skipTest = true;
+                            skipReason = (failed.Messages?.Length ?? 0) > 1 ? failed.Messages[1] : null;
+                        }
+
+                        break;
+                }
+
+                if (skipTest)
                 {
                     this.SkippedCount++;
-                    return this.inner.QueueMessage(new TestSkipped(failed.Test, failed.Messages[0]));
+                    return this.inner.QueueMessage(new TestSkipped(failed.Test, skipReason));
                 }
             }
 
             return this.inner.QueueMessage(message);
         }
+
+        private bool ShouldSkipException(string exceptionType) =>
+            Array.IndexOf(this.SkippingExceptionNames, exceptionType) >= 0;
     }
 }
