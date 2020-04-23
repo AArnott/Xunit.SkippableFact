@@ -4,7 +4,7 @@
 namespace Xunit
 {
     using System;
-    using Sdk;
+    using Xunit.Sdk;
 
     /// <summary>
     /// Marks a test method as being a data theory. Data theories are tests which are
@@ -25,7 +25,9 @@ namespace Xunit
         /// <param name="skippingExceptions">
         /// Exception types that, if thrown, should cause the test to register as skipped.
         /// </param>
+#pragma warning disable CA1801 // Review unused parameters - they are used via reflection elsewhere.
         public SkippableTheoryAttribute(params Type[] skippingExceptions)
+#pragma warning restore CA1801 // Review unused parameters
         {
         }
     }

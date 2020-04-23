@@ -8,8 +8,8 @@ namespace Xunit.Sdk
     using System.Linq;
     using System.Text;
     using System.Threading.Tasks;
-    using Abstractions;
     using Validation;
+    using Xunit.Abstractions;
 
     /// <summary>
     /// Intercepts test results on the message bus and re-interprets
@@ -36,6 +36,9 @@ namespace Xunit.Sdk
             this.SkippingExceptionNames = skippingExceptionNames;
         }
 
+        /// <summary>
+        /// Gets an array of full names to exception types that should be interpreted as a skip result.
+        /// </summary>
         internal string[] SkippingExceptionNames { get; }
 
         /// <summary>
@@ -54,24 +57,23 @@ namespace Xunit.Sdk
         /// <inheritdoc />
         public bool QueueMessage(IMessageSinkMessage message)
         {
-            var failed = message as TestFailed;
-            if (failed != null)
+            if (message is TestFailed failed)
             {
                 var outerException = failed.ExceptionTypes.FirstOrDefault();
                 bool skipTest = false;
-                string skipReason = null;
+                string? skipReason = null;
                 switch (outerException)
                 {
                     case string _ when this.ShouldSkipException(outerException):
                         skipTest = true;
-                        skipReason = failed.Messages.FirstOrDefault();
+                        skipReason = failed.Messages?.FirstOrDefault();
                         break;
                     case "Xunit.Sdk.ThrowsException" when failed.ExceptionTypes.Length > 1:
                         outerException = failed.ExceptionTypes[1];
                         if (this.ShouldSkipException(outerException))
                         {
                             skipTest = true;
-                            skipReason = (failed.Messages?.Length ?? 0) > 1 ? failed.Messages[1] : null;
+                            skipReason = failed.Messages?.Length > 1 ? failed.Messages[1] : null;
                         }
 
                         break;

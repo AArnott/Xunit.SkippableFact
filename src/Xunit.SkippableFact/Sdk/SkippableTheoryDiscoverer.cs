@@ -6,12 +6,10 @@ namespace Xunit.Sdk
     using System;
     using System.Collections.Generic;
     using System.ComponentModel;
-    using System.Linq;
-    using System.Text;
     using System.Threading;
     using System.Threading.Tasks;
-    using Abstractions;
     using Validation;
+    using Xunit.Abstractions;
 
     /// <summary>
     /// Transforms <see cref="SkippableTheoryAttribute"/> test theories into test cases.
@@ -31,7 +29,7 @@ namespace Xunit.Sdk
         /// <summary>
         /// Initializes a new instance of the <see cref="SkippableTheoryDiscoverer"/> class.
         /// </summary>
-        /// <param name="diagnosticMessageSink">The message sink used to send diagnostic messages</param>
+        /// <param name="diagnosticMessageSink">The message sink used to send diagnostic messages.</param>
         public SkippableTheoryDiscoverer(IMessageSink diagnosticMessageSink)
         {
             this.diagnosticMessageSink = diagnosticMessageSink;
@@ -41,11 +39,12 @@ namespace Xunit.Sdk
         /// <inheritdoc />
         public IEnumerable<IXunitTestCase> Discover(ITestFrameworkDiscoveryOptions discoveryOptions, ITestMethod testMethod, IAttributeInfo factAttribute)
         {
+            Requires.NotNull(factAttribute, nameof(factAttribute));
             string[] skippingExceptionNames = SkippableFactDiscoverer.GetSkippableExceptionNames(factAttribute);
             TestMethodDisplay defaultMethodDisplay = discoveryOptions.MethodDisplayOrDefault();
 
-            var basis = this.theoryDiscoverer.Discover(discoveryOptions, testMethod, factAttribute);
-            foreach (var testCase in basis)
+            IEnumerable<IXunitTestCase>? basis = this.theoryDiscoverer.Discover(discoveryOptions, testMethod, factAttribute);
+            foreach (IXunitTestCase? testCase in basis)
             {
                 if (testCase is XunitTheoryTestCase)
                 {
@@ -69,7 +68,9 @@ namespace Xunit.Sdk
             /// </summary>
             [EditorBrowsable(EditorBrowsableState.Never)]
             [Obsolete("Called by the de-serializer", true)]
+#pragma warning disable CS8618 // Non-nullable field is uninitialized. Consider declaring as nullable.
             public SkippableTheoryTestCase()
+#pragma warning restore CS8618 // Non-nullable field is uninitialized. Consider declaring as nullable.
             {
             }
 
@@ -81,7 +82,11 @@ namespace Xunit.Sdk
             /// <param name="defaultMethodDisplay">The preferred test name derivation.</param>
             /// <param name="testMethod">The test method.</param>
             public SkippableTheoryTestCase(string[] skippingExceptionNames, IMessageSink diagnosticMessageSink, TestMethodDisplay defaultMethodDisplay, ITestMethod testMethod)
+#if NET45
                 : base(diagnosticMessageSink, defaultMethodDisplay, testMethod)
+#else
+                : base(diagnosticMessageSink, defaultMethodDisplay, TestMethodDisplayOptions.None, testMethod)
+#endif
             {
                 Requires.NotNull(skippingExceptionNames, nameof(skippingExceptionNames));
                 this.SkippingExceptionNames = skippingExceptionNames;
@@ -93,7 +98,7 @@ namespace Xunit.Sdk
             public override async Task<RunSummary> RunAsync(IMessageSink diagnosticMessageSink, IMessageBus messageBus, object[] constructorArguments, ExceptionAggregator aggregator, CancellationTokenSource cancellationTokenSource)
             {
                 var messageBusInterceptor = new SkippableTestMessageBus(messageBus, this.SkippingExceptionNames);
-                var result = await base.RunAsync(diagnosticMessageSink, messageBusInterceptor, constructorArguments, aggregator, cancellationTokenSource);
+                RunSummary? result = await base.RunAsync(diagnosticMessageSink, messageBusInterceptor, constructorArguments, aggregator, cancellationTokenSource).ConfigureAwait(false);
                 result.Failed -= messageBusInterceptor.SkippedCount;
                 result.Skipped += messageBusInterceptor.SkippedCount;
                 return result;

@@ -1,30 +1,16 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <TargetFrameworks>netstandard1.1;net45;net452</TargetFrameworks>
+    <TargetFrameworks>netstandard2.0;net45;net452</TargetFrameworks>
     <RootNamespace>Xunit</RootNamespace>
-    <CodeAnalysisRuleSet>Xunit.SkippableFact.ruleset</CodeAnalysisRuleSet>
-    <SignAssembly>true</SignAssembly>
-    <AssemblyOriginatorKeyFile>opensourcekey.snk</AssemblyOriginatorKeyFile>
-    <GenerateDocumentationFile>true</GenerateDocumentationFile>
 
     <Title>Dynamic test skipping for Xunit</Title>
-    <Authors>Andrew Arnott</Authors>
-    <Owners>andarno</Owners>
     <Description>Make your Xunit test methods self-determine to report a "skipped" result. Useful for such cases as "not supported on this platform" results or other environmental inputs.</Description>
-    <PackageProjectUrl>https://github.com/AArnott/Xunit.SkippableFact</PackageProjectUrl>
-    <Copyright>Copyright © Andrew Arnott</Copyright>
     <PackageTags>xunit testing skipping</PackageTags>
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="Validation" Version="2.4.18" PrivateAssets="compile;contentfiles;analyzers;build" />
     <PackageReference Include="xunit.extensibility.execution" Version="2.1.0" Condition=" '$(TargetFramework)' == 'net45' " />
     <PackageReference Include="xunit.extensibility.execution" Version="2.4.0" Condition=" '$(TargetFramework)' != 'net45' " />
-    <PackageReference Include="StyleCop.Analyzers" Version="1.0.2" PrivateAssets="all" />
     <PackageReference Update="NETStandard.Library" PrivateAssets="all" />
   </ItemGroup>
-  <Target Name="SetNuSpecProperties" BeforeTargets="GenerateNuspec" DependsOnTargets="GetBuildVersion">
-    <PropertyGroup>
-      <PackageLicenseUrl>https://raw.githubusercontent.com/AArnott/Xunit.SkippableFact/$(GitCommitIdShort)/LICENSE.txt</PackageLicenseUrl>
-    </PropertyGroup>
-  </Target>
 </Project>

@@ -14,7 +14,7 @@ namespace Xunit
         /// </summary>
         /// <param name="condition">The condition that must evaluate to <c>true</c> for the test to be skipped.</param>
         /// <param name="reason">The explanation for why the test is skipped.</param>
-        public static void If(bool condition, string reason = null)
+        public static void If(bool condition, string? reason = null)
         {
             if (condition)
             {
@@ -27,7 +27,7 @@ namespace Xunit
         /// </summary>
         /// <param name="condition">The condition that must evaluate to <c>false</c> for the test to be skipped.</param>
         /// <param name="reason">The explanation for why the test is skipped.</param>
-        public static void IfNot(bool condition, string reason = null)
+        public static void IfNot(bool condition, string? reason = null)
         {
             Skip.If(!condition, reason);
         }

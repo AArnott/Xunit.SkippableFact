@@ -4,7 +4,7 @@
 namespace Xunit
 {
     using System;
-    using Sdk;
+    using Xunit.Sdk;
 
     /// <summary>
     /// Attribute that is applied to a method to indicate that it is a fact that should
@@ -22,7 +22,9 @@ namespace Xunit
         /// <param name="skippingExceptions">
         /// Exception types that, if thrown, should cause the test to register as skipped.
         /// </param>
+#pragma warning disable CA1801 // Review unused parameters - they are used via reflection elsewhere.
         public SkippableFactAttribute(params Type[] skippingExceptions)
+#pragma warning restore CA1801 // Review unused parameters
         {
         }
     }
