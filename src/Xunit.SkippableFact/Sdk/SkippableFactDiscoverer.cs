@@ -32,7 +32,7 @@ namespace Xunit.Sdk
         }
 
         /// <inheritdoc />
-        public IEnumerable<IXunitTestCase> Discover(ITestFrameworkDiscoveryOptions discoveryOptions, ITestMethod testMethod, IAttributeInfo factAttribute)
+        public virtual IEnumerable<IXunitTestCase> Discover(ITestFrameworkDiscoveryOptions discoveryOptions, ITestMethod testMethod, IAttributeInfo factAttribute)
         {
             Requires.NotNull(factAttribute, nameof(factAttribute));
             string[] skippingExceptionNames = GetSkippableExceptionNames(factAttribute);
@@ -44,7 +44,7 @@ namespace Xunit.Sdk
         /// </summary>
         /// <param name="factAttribute">The <see cref="SkippableFactAttribute"/>.</param>
         /// <returns>An array of full names of types.</returns>
-        internal static string[] GetSkippableExceptionNames(IAttributeInfo factAttribute)
+        public static string[] GetSkippableExceptionNames(IAttributeInfo factAttribute)
         {
             object[]? firstArgument = (object[])factAttribute.GetConstructorArguments().FirstOrDefault();
             Type[]? skippingExceptions = firstArgument?.Cast<Type>().ToArray() ?? Type.EmptyTypes;
@@ -58,7 +58,7 @@ namespace Xunit.Sdk
         /// <summary>
         /// A test case that interprets <see cref="SkipException"/> as a <see cref="TestSkipped"/> result.
         /// </summary>
-        internal class SkippableFactTestCase : XunitTestCase
+        public class SkippableFactTestCase : XunitTestCase
         {
             /// <summary>
             /// Initializes a new instance of the <see cref="SkippableFactTestCase"/> class,

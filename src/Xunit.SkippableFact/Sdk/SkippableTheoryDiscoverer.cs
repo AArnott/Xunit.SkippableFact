@@ -37,7 +37,7 @@ namespace Xunit.Sdk
         }
 
         /// <inheritdoc />
-        public IEnumerable<IXunitTestCase> Discover(ITestFrameworkDiscoveryOptions discoveryOptions, ITestMethod testMethod, IAttributeInfo factAttribute)
+        public virtual IEnumerable<IXunitTestCase> Discover(ITestFrameworkDiscoveryOptions discoveryOptions, ITestMethod testMethod, IAttributeInfo factAttribute)
         {
             Requires.NotNull(factAttribute, nameof(factAttribute));
             string[] skippingExceptionNames = SkippableFactDiscoverer.GetSkippableExceptionNames(factAttribute);
@@ -60,7 +60,7 @@ namespace Xunit.Sdk
         /// <summary>
         /// A theory test case that will wrap the message bus.
         /// </summary>
-        private class SkippableTheoryTestCase : XunitTheoryTestCase
+        public class SkippableTheoryTestCase : XunitTheoryTestCase
         {
             /// <summary>
             /// Initializes a new instance of the <see cref="SkippableTheoryTestCase"/> class,

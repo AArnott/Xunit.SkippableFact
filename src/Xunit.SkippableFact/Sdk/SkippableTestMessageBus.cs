@@ -15,7 +15,7 @@ namespace Xunit.Sdk
     /// Intercepts test results on the message bus and re-interprets
     /// <see cref="SkipException"/> as a <see cref="TestSkipped"/> result.
     /// </summary>
-    internal class SkippableTestMessageBus : IMessageBus
+    public class SkippableTestMessageBus : IMessageBus
     {
         /// <summary>
         /// The original message bus to which all messages should be forwarded.
@@ -27,7 +27,7 @@ namespace Xunit.Sdk
         /// </summary>
         /// <param name="inner">The original message bus to which all messages should be forwarded.</param>
         /// <param name="skippingExceptionNames">An array of the full names of the exception types which should be interpreted as a skipped test-.</param>
-        internal SkippableTestMessageBus(IMessageBus inner, string[] skippingExceptionNames)
+        public SkippableTestMessageBus(IMessageBus inner, string[] skippingExceptionNames)
         {
             Requires.NotNull(inner, nameof(inner));
             Requires.NotNull(skippingExceptionNames, nameof(skippingExceptionNames));
@@ -44,7 +44,7 @@ namespace Xunit.Sdk
         /// <summary>
         /// Gets the number of tests that have been dynamically skipped.
         /// </summary>
-        internal int SkippedCount { get; private set; }
+        public int SkippedCount { get; private set; }
 
         /// <summary>
         /// Disposes the inner message bus.
