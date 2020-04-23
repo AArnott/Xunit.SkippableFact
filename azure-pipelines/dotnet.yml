@@ -10,7 +10,7 @@ steps:
   displayName: dotnet test -f net45
   inputs:
     command: test
-    arguments: --no-build -c $(BuildConfiguration) -f net45 --filter "TestCategory!=FailsInCloudTest" -v n /p:CollectCoverage=true --settings "$(Build.Repository.LocalPath)/azure-pipelines/$(Agent.OS).runsettings"
+    arguments: --no-build -c $(BuildConfiguration) -f net45 --filter "TestCategory!=FailsInCloudTest" -v n --settings "$(Build.Repository.LocalPath)/azure-pipelines/$(Agent.OS).runsettings"
     testRunTitle: net45-$(Agent.JobName)
   condition: and(succeeded(), eq(variables['Agent.OS'], 'Windows_NT'))
 
@@ -18,7 +18,7 @@ steps:
   displayName: dotnet test -f net461
   inputs:
     command: test
-    arguments: --no-build -c $(BuildConfiguration) -f net461 --filter "TestCategory!=FailsInCloudTest" -v n /p:CollectCoverage=true --settings "$(Build.Repository.LocalPath)/azure-pipelines/$(Agent.OS).runsettings"
+    arguments: --no-build -c $(BuildConfiguration) -f net461 --filter "TestCategory!=FailsInCloudTest" -v n --settings "$(Build.Repository.LocalPath)/azure-pipelines/$(Agent.OS).runsettings"
     testRunTitle: net461-$(Agent.JobName)
   condition: and(succeeded(), eq(variables['Agent.OS'], 'Windows_NT'))
 
@@ -26,7 +26,7 @@ steps:
   displayName: dotnet test -f netcoreapp2.1
   inputs:
     command: test
-    arguments: --no-build -c $(BuildConfiguration) -f netcoreapp2.1 --filter "TestCategory!=FailsInCloudTest" -v n /p:CollectCoverage=true --settings "$(Build.Repository.LocalPath)/azure-pipelines/$(Agent.OS).runsettings"
+    arguments: --no-build -c $(BuildConfiguration) -f netcoreapp2.1 --filter "TestCategory!=FailsInCloudTest" -v n --settings "$(Build.Repository.LocalPath)/azure-pipelines/$(Agent.OS).runsettings"
     testRunTitle: netcoreapp2.1-$(Agent.JobName)
 
 - powershell: azure-pipelines/variables/_pipelines.ps1
@@ -47,9 +47,3 @@ steps:
     SymbolServerType: TeamServices
   displayName: Publish symbols to symbol server
   condition: and(succeeded(), ne(variables['Build.Reason'], 'PullRequest'), eq(variables['Agent.OS'], 'Windows_NT'))
-
-- bash: bash <(curl -s https://codecov.io/bash)
-  displayName: Publish code coverage results to codecov.io
-  condition: ne(variables['codecov_token'], '')
-  timeoutInMinutes: 3
-  continueOnError: true
