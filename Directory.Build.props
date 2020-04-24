@@ -16,7 +16,7 @@
     <PackageProjectUrl>https://github.com/AArnott/Xunit.SkippableFact</PackageProjectUrl>
     <Company>Andrew Arnott</Company>
     <Authors>Andrew Arnott</Authors>
-    <PackageLicenseExpression>MS-Pl</PackageLicenseExpression>
+    <PackageLicenseExpression>MS-PL</PackageLicenseExpression>
     <PublishRepositoryUrl>true</PublishRepositoryUrl>
     <EmbedUntrackedSources>true</EmbedUntrackedSources>
     <IncludeSymbols>true</IncludeSymbols>
@@ -33,4 +33,9 @@
   <ItemGroup>
     <AdditionalFiles Include="$(MSBuildThisFileDirectory)stylecop.json" />
   </ItemGroup>
+  <Target Name="PrepareReleaseNotes" BeforeTargets="GenerateNuspec" DependsOnTargets="GetBuildVersion">
+    <PropertyGroup>
+      <PackageReleaseNotes>https://github.com/AArnott/Xunit.SkippableFact/releases/tag/v$(Version)</PackageReleaseNotes>
+    </PropertyGroup>
+  </Target>
 </Project>
