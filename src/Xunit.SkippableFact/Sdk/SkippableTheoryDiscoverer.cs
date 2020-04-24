@@ -48,11 +48,19 @@ namespace Xunit.Sdk
             {
                 if (testCase is XunitTheoryTestCase)
                 {
+#if NET45
                     yield return new SkippableTheoryTestCase(skippingExceptionNames, this.diagnosticMessageSink, defaultMethodDisplay, testCase.TestMethod);
+#else
+                    yield return new SkippableTheoryTestCase(skippingExceptionNames, this.diagnosticMessageSink, defaultMethodDisplay, discoveryOptions.MethodDisplayOptionsOrDefault(), testCase.TestMethod);
+#endif
                 }
                 else
                 {
+#if NET45
                     yield return new SkippableFactTestCase(skippingExceptionNames, this.diagnosticMessageSink, defaultMethodDisplay, testCase.TestMethod, testCase.TestMethodArguments);
+#else
+                    yield return new SkippableFactTestCase(skippingExceptionNames, this.diagnosticMessageSink, defaultMethodDisplay, discoveryOptions.MethodDisplayOptionsOrDefault(), testCase.TestMethod, testCase.TestMethodArguments);
+#endif
                 }
             }
         }
