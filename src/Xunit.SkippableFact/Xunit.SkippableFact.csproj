@@ -8,6 +8,11 @@
     <PackageTags>xunit testing skipping</PackageTags>
   </PropertyGroup>
   <ItemGroup>
+    <None Update="xunit.runner.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>  
+  <ItemGroup>
     <PackageReference Include="Validation" Version="2.4.18" PrivateAssets="compile;contentfiles;analyzers;build" />
     <PackageReference Include="xunit.extensibility.execution" Version="2.1.0" Condition=" '$(TargetFramework)' == 'net45' " />
     <PackageReference Include="xunit.extensibility.execution" Version="2.4.0" Condition=" '$(TargetFramework)' != 'net45' " />

@@ -50,7 +50,11 @@ namespace Xunit.Sdk
         {
             Requires.NotNull(factAttribute, nameof(factAttribute));
             string[] skippingExceptionNames = GetSkippableExceptionNames(factAttribute);
+#if NET45
             yield return new SkippableFactTestCase(skippingExceptionNames, this.diagnosticMessageSink, discoveryOptions.MethodDisplayOrDefault(), testMethod);
+#else
+            yield return new SkippableFactTestCase(skippingExceptionNames, this.diagnosticMessageSink, discoveryOptions.MethodDisplayOrDefault(), discoveryOptions.MethodDisplayOptionsOrDefault(), testMethod);
+#endif
         }
     }
 }
