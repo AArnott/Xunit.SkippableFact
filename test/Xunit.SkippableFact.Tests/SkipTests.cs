@@ -48,5 +48,37 @@ namespace Xunit.SkippableFact.Tests
                 Assert.Equal(reason, ex.Message);
             }
         }
+
+        [Fact]
+        public void If_SupportsNullableReferenceTypesPostCondition()
+        {
+            // Provoke a possibly null value that is not detectable through
+            // static analysis
+            string? value =
+                int.Parse("42", System.Globalization.CultureInfo.InvariantCulture) == 42
+                ? "Not null"
+                : null;
+
+            Skip.If(value is null);
+
+            // Does not trigger a nullable reference type warning
+            _ = value.Substring(0);
+        }
+
+        [Fact]
+        public void IfNot_SupportsNullableReferenceTypesPostCondition()
+        {
+            // Provoke a possibly null value that is not detectable through
+            // static analysis
+            string? value =
+                int.Parse("42", System.Globalization.CultureInfo.InvariantCulture) == 42
+                ? "Not null"
+                : null;
+
+            Skip.IfNot(value is object);
+
+            // Does not trigger a nullable reference type warning
+            _ = value.Substring(0);
+        }
     }
 }
