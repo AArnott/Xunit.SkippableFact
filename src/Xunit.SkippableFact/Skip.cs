@@ -17,8 +17,7 @@ namespace Xunit
         /// <param name="condition">The condition that must evaluate to <c>true</c> for the test to be skipped.</param>
         /// <param name="reason">The explanation for why the test is skipped.</param>
         public static void If(
-            [DoesNotReturnIf(true)]
-            bool condition,
+            [DoesNotReturnIf(true)] bool condition,
             string? reason = null)
         {
             if (condition)
@@ -33,8 +32,7 @@ namespace Xunit
         /// <param name="condition">The condition that must evaluate to <c>false</c> for the test to be skipped.</param>
         /// <param name="reason">The explanation for why the test is skipped.</param>
         public static void IfNot(
-            [DoesNotReturnIf(false)]
-            bool condition,
+            [DoesNotReturnIf(false)] bool condition,
             string? reason = null)
         {
             Skip.If(!condition, reason);

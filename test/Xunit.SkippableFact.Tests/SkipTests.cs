@@ -49,7 +49,6 @@ namespace Xunit.SkippableFact.Tests
             }
         }
 
-#if NETCOREAPP3_1
         [Fact]
         public void If_SupportsNullableReferenceTypesPostCondition()
         {
@@ -76,11 +75,10 @@ namespace Xunit.SkippableFact.Tests
                 ? "Not null"
                 : null;
 
-            Skip.IfNot(!(value is null));
+            Skip.IfNot(value is object);
 
             // Does not trigger a nullable reference type warning
             _ = value.Substring(0);
         }
-#endif
     }
 }
