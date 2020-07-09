@@ -3,6 +3,10 @@
 
 namespace Xunit
 {
+#if NETSTANDARD2_1
+    using System.Diagnostics.CodeAnalysis;
+#endif
+
     /// <summary>
     /// Static methods for dynamically skipping tests identified with
     /// the <see cref="SkippableFactAttribute"/>.
@@ -14,7 +18,12 @@ namespace Xunit
         /// </summary>
         /// <param name="condition">The condition that must evaluate to <c>true</c> for the test to be skipped.</param>
         /// <param name="reason">The explanation for why the test is skipped.</param>
-        public static void If(bool condition, string? reason = null)
+        public static void If(
+#if NETSTANDARD2_1
+            [DoesNotReturnIf(true)]
+#endif
+            bool condition,
+            string? reason = null)
         {
             if (condition)
             {
@@ -27,7 +36,12 @@ namespace Xunit
         /// </summary>
         /// <param name="condition">The condition that must evaluate to <c>false</c> for the test to be skipped.</param>
         /// <param name="reason">The explanation for why the test is skipped.</param>
-        public static void IfNot(bool condition, string? reason = null)
+        public static void IfNot(
+#if NETSTANDARD2_1
+            [DoesNotReturnIf(false)]
+#endif
+            bool condition,
+            string? reason = null)
         {
             Skip.If(!condition, reason);
         }
