@@ -36,17 +36,12 @@ public class SkippableFactTestCase : XunitTestCase
     /// <param name="testMethod">The test method.</param>
     /// <param name="testMethodArguments">The test method arguments.</param>
     public SkippableFactTestCase(string[] skippingExceptionNames, IMessageSink diagnosticMessageSink, TestMethodDisplay defaultMethodDisplay, ITestMethod testMethod, object[]? testMethodArguments = null)
-#if NET45
-            : base(diagnosticMessageSink, defaultMethodDisplay, testMethod, testMethodArguments)
-#else
             : base(diagnosticMessageSink, defaultMethodDisplay, TestMethodDisplayOptions.None, testMethod, testMethodArguments)
-#endif
     {
         Requires.NotNull(skippingExceptionNames, nameof(skippingExceptionNames));
         this.SkippingExceptionNames = skippingExceptionNames;
     }
 
-#if !NET45
     /// <summary>
     /// Initializes a new instance of the <see cref="SkippableFactTestCase"/> class.
     /// </summary>
@@ -62,7 +57,6 @@ public class SkippableFactTestCase : XunitTestCase
         Requires.NotNull(skippingExceptionNames, nameof(skippingExceptionNames));
         this.SkippingExceptionNames = skippingExceptionNames;
     }
-#endif
 
     /// <summary>
     /// Gets an array of full names to exception types that should be interpreted as a skip result.
