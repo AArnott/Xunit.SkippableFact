@@ -3,39 +3,38 @@
 
 using System.Diagnostics.CodeAnalysis;
 
-namespace Xunit
+namespace Xunit;
+
+/// <summary>
+/// Static methods for dynamically skipping tests identified with
+/// the <see cref="SkippableFactAttribute"/>.
+/// </summary>
+public static class Skip
 {
     /// <summary>
-    /// Static methods for dynamically skipping tests identified with
-    /// the <see cref="SkippableFactAttribute"/>.
+    /// Throws an exception that results in a "Skipped" result for the test.
     /// </summary>
-    public static class Skip
+    /// <param name="condition">The condition that must evaluate to <c><see langword="true"/></c> for the test to be skipped.</param>
+    /// <param name="reason">The explanation for why the test is skipped.</param>
+    public static void If(
+        [DoesNotReturnIf(true)] bool condition,
+        string? reason = null)
     {
-        /// <summary>
-        /// Throws an exception that results in a "Skipped" result for the test.
-        /// </summary>
-        /// <param name="condition">The condition that must evaluate to <c><see langword="true"/></c> for the test to be skipped.</param>
-        /// <param name="reason">The explanation for why the test is skipped.</param>
-        public static void If(
-            [DoesNotReturnIf(true)] bool condition,
-            string? reason = null)
+        if (condition)
         {
-            if (condition)
-            {
-                throw new SkipException(reason);
-            }
+            throw new SkipException(reason);
         }
+    }
 
-        /// <summary>
-        /// Throws an exception that results in a "Skipped" result for the test.
-        /// </summary>
-        /// <param name="condition">The condition that must evaluate to <see langword="false"/> for the test to be skipped.</param>
-        /// <param name="reason">The explanation for why the test is skipped.</param>
-        public static void IfNot(
-            [DoesNotReturnIf(false)] bool condition,
-            string? reason = null)
-        {
-            Skip.If(!condition, reason);
-        }
+    /// <summary>
+    /// Throws an exception that results in a "Skipped" result for the test.
+    /// </summary>
+    /// <param name="condition">The condition that must evaluate to <see langword="false"/> for the test to be skipped.</param>
+    /// <param name="reason">The explanation for why the test is skipped.</param>
+    public static void IfNot(
+        [DoesNotReturnIf(false)] bool condition,
+        string? reason = null)
+    {
+        Skip.If(!condition, reason);
     }
 }
