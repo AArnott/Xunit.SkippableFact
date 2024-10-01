@@ -9,6 +9,9 @@
         "licenseFile": "LICENSE.txt"
       },
       "xmlHeader": false
+    },
+    "orderingRules": {
+      "usingDirectivesPlacement": "outsideNamespace"
     }
   }
 }
