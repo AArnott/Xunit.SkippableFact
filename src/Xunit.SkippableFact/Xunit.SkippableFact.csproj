@@ -1,6 +1,6 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <TargetFrameworks>netstandard2.0;net45;net452</TargetFrameworks>
+    <TargetFrameworks>netstandard2.0;net462</TargetFrameworks>
     <RootNamespace>Xunit</RootNamespace>
 
     <Title>Dynamic test skipping for Xunit</Title>
@@ -14,8 +14,6 @@
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Validation" PrivateAssets="compile;contentfiles;analyzers;build" />
-    <PackageReference Include="xunit.extensibility.execution" VersionOverride="2.1.0" Condition=" '$(TargetFramework)' == 'net45' " />
-    <PackageReference Include="xunit.extensibility.execution" VersionOverride="2.4.0" Condition=" '$(TargetFramework)' != 'net45' " />
-    <PackageReference Update="NETStandard.Library" PrivateAssets="all" />
+    <PackageReference Include="xunit.extensibility.execution" VersionOverride="2.4.0" />
   </ItemGroup>
 </Project>
