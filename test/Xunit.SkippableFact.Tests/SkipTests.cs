@@ -19,7 +19,7 @@ namespace Xunit.SkippableFact.Tests
             try
             {
                 Skip.If(true, reason);
-                Assert.True(false, "If should have thrown.");
+                Assert.Fail("If should have thrown.");
             }
             catch (SkipException ex)
             {
@@ -41,7 +41,7 @@ namespace Xunit.SkippableFact.Tests
             try
             {
                 Skip.IfNot(false, reason);
-                Assert.True(false, "IfNot should have thrown.");
+                Assert.Fail("IfNot should have thrown.");
             }
             catch (SkipException ex)
             {

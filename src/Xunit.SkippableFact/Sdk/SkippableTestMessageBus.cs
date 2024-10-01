@@ -1,13 +1,13 @@
 ﻿// Copyright (c) Andrew Arnott. All rights reserved.
 // Licensed under the Microsoft Public License (Ms-PL). See LICENSE.txt file in the project root for full license information.
 
+using System;
+using System.Linq;
+using Validation;
+using Xunit.Abstractions;
+
 namespace Xunit.Sdk
 {
-    using System;
-    using System.Linq;
-    using Validation;
-    using Xunit.Abstractions;
-
     /// <summary>
     /// Intercepts test results on the message bus and re-interprets
     /// <see cref="SkipException"/> as a <see cref="TestSkipped"/> result.
