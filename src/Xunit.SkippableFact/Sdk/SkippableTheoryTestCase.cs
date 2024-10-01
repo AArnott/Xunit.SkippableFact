@@ -35,17 +35,12 @@ public class SkippableTheoryTestCase : XunitTheoryTestCase
     /// <param name="defaultMethodDisplay">The preferred test name derivation.</param>
     /// <param name="testMethod">The test method.</param>
     public SkippableTheoryTestCase(string[] skippingExceptionNames, IMessageSink diagnosticMessageSink, TestMethodDisplay defaultMethodDisplay, ITestMethod testMethod)
-#if NET45
-            : base(diagnosticMessageSink, defaultMethodDisplay, testMethod)
-#else
             : base(diagnosticMessageSink, defaultMethodDisplay, TestMethodDisplayOptions.None, testMethod)
-#endif
     {
         Requires.NotNull(skippingExceptionNames, nameof(skippingExceptionNames));
         this.SkippingExceptionNames = skippingExceptionNames;
     }
 
-#if !NET45
     /// <summary>
     /// Initializes a new instance of the <see cref="SkippableTheoryTestCase"/> class.
     /// </summary>
@@ -60,7 +55,6 @@ public class SkippableTheoryTestCase : XunitTheoryTestCase
         Requires.NotNull(skippingExceptionNames, nameof(skippingExceptionNames));
         this.SkippingExceptionNames = skippingExceptionNames;
     }
-#endif
 
     /// <summary>
     /// Gets an array of the full names of the exception types which should be interpreted as a skipped test.
