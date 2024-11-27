@@ -1,7 +1,7 @@
 Xunit.SkippableFact
 ======================
 
-[![Build Status](https://dev.azure.com/andrewarnott/OSS/_apis/build/status/AArnott.Xunit.SkippableFact?branchName=master)](https://dev.azure.com/andrewarnott/OSS/_build/latest?definitionId=37&branchName=master)
+[![GitHub Actions status](https://github.com/aarnott/Library.Template/workflows/CI/badge.svg)](https://github.com/AArnott/Xunit.SkippableFact/actions/workflows/build.yml)
 [![NuGet package](https://img.shields.io/nuget/v/xunit.skippablefact.svg)](https://nuget.org/packages/xunit.skippablefact)
 
 This project allows for Xunit tests that can determine during execution
