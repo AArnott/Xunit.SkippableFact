@@ -9,3 +9,7 @@ updates:
     interval: weekly
   ignore:
     - dependency-name: xunit.extensibility.execution
+- package-ecosystem: dotnet-sdk
+  directory: /
+  schedule:
+    interval: monthly
