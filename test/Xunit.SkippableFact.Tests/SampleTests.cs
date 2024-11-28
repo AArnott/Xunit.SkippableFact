@@ -1,7 +1,7 @@
 ﻿// Copyright (c) Andrew Arnott. All rights reserved.
 // Licensed under the Microsoft Public License (Ms-PL). See LICENSE.txt file in the project root for full license information.
 
-using System;
+using System.Runtime.Versioning;
 
 namespace Xunit.SkippableFact.Tests;
 
@@ -76,4 +76,45 @@ public class SampleTests
             throw new Exception();
         }));
     }
+
+#if NET5_0_OR_GREATER
+    [SkippableFact, SupportedOSPlatform("Linux")]
+    public void LinuxOnly()
+    {
+        Assert.True(OperatingSystem.IsLinux(), "This should only run on Linux");
+    }
+
+    [SkippableFact, SupportedOSPlatform("macOS")]
+    public void MacOsOnly()
+    {
+        Assert.True(OperatingSystem.IsMacOS(), "This should only run on macOS");
+    }
+
+    [SkippableFact, SupportedOSPlatform("Windows")]
+    public void WindowsOnly()
+    {
+        Assert.True(OperatingSystem.IsWindows(), "This should only run on Windows");
+    }
+
+    [SkippableFact, SupportedOSPlatform("Android"), SupportedOSPlatform("Browser")]
+    public void AndroidAndBrowserFact()
+    {
+        Assert.True(OperatingSystem.IsAndroid() || OperatingSystem.IsBrowser(), "This should only run on Android and Browser");
+    }
+
+    [SkippableTheory, SupportedOSPlatform("Android"), SupportedOSPlatform("Browser")]
+    [InlineData(1)]
+    [InlineData(2)]
+    public void AndroidAndBrowserTheory(int number)
+    {
+        _ = number;
+        Assert.True(OperatingSystem.IsAndroid() || OperatingSystem.IsBrowser(), "This should only run on Android and Browser");
+    }
+
+    [SkippableFact, SupportedOSPlatform("Android"), SupportedOSPlatform("Browser"), SupportedOSPlatform("Wasi")]
+    public void AndroidAndBrowserAndWasiOnly()
+    {
+        Assert.True(OperatingSystem.IsAndroid() || OperatingSystem.IsBrowser() || OperatingSystem.IsWasi(), "This should only run on Android, Browser and Wasi");
+    }
+#endif
 }
