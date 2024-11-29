@@ -21,16 +21,20 @@ internal static class TestMethodExtensions
 #if NET462
         return null;
 #else
-        var platforms = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
-        AddPlatforms(platforms, testMethod.Method.GetCustomAttributes("System.Runtime.Versioning.SupportedOSPlatformAttribute"));
-        AddPlatforms(platforms, testMethod.Method.Type.GetCustomAttributes("System.Runtime.Versioning.SupportedOSPlatformAttribute"));
+        HashSet<string> unsupportedPlatforms = GetPlatforms(testMethod, "UnsupportedOSPlatform");
+        string? unsupportedPlatform = unsupportedPlatforms.FirstOrDefault(MatchesCurrentPlatform);
+        if (unsupportedPlatform is not null)
+        {
+            return $"Unsupported on {unsupportedPlatform}";
+        }
 
-        if (platforms.Count == 0 || platforms.Any(MatchesCurrentPlatform))
+        HashSet<string> supportedPlatforms = GetPlatforms(testMethod, "SupportedOSPlatform");
+        if (supportedPlatforms.Count == 0 || supportedPlatforms.Any(MatchesCurrentPlatform))
         {
             return null;
         }
 
-        string platformsDescription = platforms.Count == 1 ? platforms.First() : string.Join(", ", platforms.Reverse().Skip(1).Reverse()) + " and " + platforms.Last();
+        string platformsDescription = supportedPlatforms.Count == 1 ? supportedPlatforms.First() : string.Join(", ", supportedPlatforms.Reverse().Skip(1).Reverse()) + " and " + supportedPlatforms.Last();
         return $"Only supported on {platformsDescription}";
 #endif
     }
@@ -81,6 +85,37 @@ internal static class TestMethodExtensions
         revision = revision < 0 ? 0 : revision;
 
         return currentRevision >= revision;
+    }
+
+    /// <summary>
+    /// Returns the collection of platforms defined by the specified <paramref name="platformAttributeName"/> that decorate the test method and the test class.
+    /// </summary>
+    /// <param name="testMethod">The <see cref="ITestMethod"/>.</param>
+    /// <param name="platformAttributeName">Either <c>SupportedOSPlatform</c> or <c>UnsupportedOSPlatform</c>.</param>
+    /// <example>
+    /// <para>
+    /// Calling GetPlatforms(testMethod, "SupportedOSPlatform") where <paramref name="testMethod"/> represents <c>MyTest</c> returns ["Linux", "macOS"].
+    /// </para>
+    /// <code>
+    /// [SupportedOSPlatform("macOS")]
+    /// public class MyTests
+    /// {
+    ///     [SkippableFact]
+    ///     [SupportedOSPlatform("Linux")]
+    ///     public void MyTest()
+    ///     {
+    ///     }
+    /// }
+    /// </code>
+    /// </example>
+    /// <returns>The collection of platforms defined by the specified <paramref name="platformAttributeName"/> that decorate the test method and the test class.</returns>
+    private static HashSet<string> GetPlatforms(ITestMethod testMethod, string platformAttributeName)
+    {
+        string platformAttribute = $"System.Runtime.Versioning.{platformAttributeName}Attribute";
+        var platforms = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
+        AddPlatforms(platforms, testMethod.Method.GetCustomAttributes(platformAttribute));
+        AddPlatforms(platforms, testMethod.Method.Type.GetCustomAttributes(platformAttribute));
+        return platforms;
     }
 
     private static void AddPlatforms(HashSet<string> platforms, IEnumerable<IAttributeInfo> supportedPlatformAttributes)

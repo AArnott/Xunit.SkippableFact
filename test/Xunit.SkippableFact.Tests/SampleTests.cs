@@ -140,5 +140,13 @@ public class SampleTests
     {
         Assert.True(OperatingSystem.IsAndroid() || OperatingSystem.IsBrowser() || OperatingSystem.IsWasi(), "This should only run on Android, Browser and Wasi");
     }
+
+    [SkippableFact, UnsupportedOSPlatform("Linux"), UnsupportedOSPlatform("macOS"), UnsupportedOSPlatform("Windows")]
+    public void UnsupportedPlatforms()
+    {
+        Assert.False(OperatingSystem.IsLinux());
+        Assert.False(OperatingSystem.IsMacOS());
+        Assert.False(OperatingSystem.IsWindows());
+    }
 #endif
 }
