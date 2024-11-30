@@ -16,7 +16,7 @@ internal static class TestMethodExtensions
     /// </summary>
     /// <param name="testMethod">The <see cref="ITestMethod"/>.</param>
     /// <returns>A description of the supported platforms if the test can not run on the current platform or <see langword="null"/> if the test can run on the current platform.</returns>
-    public static string? GetPlatformSkipReason(this ITestMethod testMethod)
+    internal static string? GetPlatformSkipReason(this ITestMethod testMethod)
     {
 #if NET462
         return null;

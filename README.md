@@ -38,7 +38,7 @@ public void TestFunctionalityWhichIsNotSupportedOnSomePlatforms()
 }
 ```
 
-### The [SupportedOSPlatform] attribute
+## The `[SupportedOSPlatform]` attribute
 
 Since version 1.5, `Xunit.SkippableFact` understands the `SupportedOSPlatform` attribute to skip tests on unsupported platforms.
 
@@ -51,10 +51,10 @@ public void TestCngKey()
 }
 ```
 
-Without `[SupportedOSPlatform("Windows")` the [CA1416](CA1416) code analysis warning would trigger:
+Without `[SupportedOSPlatform("Windows")]` the [CA1416][CA1416] code analysis warning would trigger:
 > This call site is reachable on all platforms. 'CngKey. Create(CngAlgorithm)' is only supported on: 'windows'.
 
-Adding `[SupportedOSPlatform("Windows")` both suppresses this platform compatibility warning and skips the test when running on Linux or macOS.
+Adding `[SupportedOSPlatform("Windows")]` both suppresses this platform compatibility warning and skips the test when running on Linux or macOS.
 
 [NuPkg]: https://www.nuget.org/packages/Xunit.SkippableFact
-[CA1416]: https://learn.microsoft.com/en-gb/dotnet/fundamentals/code-analysis/quality-rules/ca1416
+[CA1416]: https://learn.microsoft.com/dotnet/fundamentals/code-analysis/quality-rules/ca1416
