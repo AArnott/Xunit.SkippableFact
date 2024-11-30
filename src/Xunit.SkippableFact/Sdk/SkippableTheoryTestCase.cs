@@ -86,4 +86,10 @@ public class SkippableTheoryTestCase : XunitTheoryTestCase
         base.Deserialize(data);
         this.SkippingExceptionNames = data.GetValue<string[]>(nameof(this.SkippingExceptionNames));
     }
+
+    /// <inheritdoc/>
+    protected override string GetSkipReason(IAttributeInfo factAttribute)
+    {
+        return this.TestMethod.GetPlatformSkipReason() ?? base.GetSkipReason(factAttribute);
+    }
 }
