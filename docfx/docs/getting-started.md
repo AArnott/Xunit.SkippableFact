@@ -30,7 +30,7 @@ your library is not expected to be implemented in some of them. For example:
 
 ### Supported platforms
 
-Apply the @System.Runtime.Versioning.SupportedOSPlatformAttribute and/or @System.Runtime.Versioning.UnsupportedOSPlatformAttribute to a test method to skip it based on the platform the test is running on.
+Apply the @System.Runtime.Versioning.SupportedOSPlatformAttribute and/or @System.Runtime.Versioning.UnsupportedOSPlatformAttribute to a test method or test class to skip it based on the platform the test is running on.
 
 [!code-csharp[](../../samples/GettingStarted.cs#OSCheck)]
 
