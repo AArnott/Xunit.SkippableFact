@@ -1,7 +1,7 @@
 Xunit.SkippableFact
 ======================
 
-[![GitHub Actions status](https://github.com/aarnott/Library.Template/workflows/CI/badge.svg)](https://github.com/AArnott/Xunit.SkippableFact/actions/workflows/build.yml)
+[![GitHub Actions status](https://github.com/aarnott/Xunit.SkippableFact/actions/workflows/build.yml/badge.svg)](https://github.com/AArnott/Xunit.SkippableFact/actions/workflows/build.yml)
 [![NuGet package](https://img.shields.io/nuget/v/xunit.skippablefact.svg)](https://nuget.org/packages/xunit.skippablefact)
 
 This project allows for Xunit tests that can determine during execution that they should report a "skipped" result.
