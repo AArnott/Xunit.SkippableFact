@@ -8,7 +8,9 @@ updates:
   schedule:
     interval: weekly
   ignore:
+    # We're only tracking xunit v2, so don't follow it to newer versions.
     - dependency-name: xunit.extensibility.execution
+    - dependency-name: xunit.runner.visualstudio
 - package-ecosystem: dotnet-sdk
   directory: /
   schedule:
