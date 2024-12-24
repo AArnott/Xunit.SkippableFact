@@ -7,6 +7,10 @@ Xunit.SkippableFact
 This project allows for Xunit tests that can determine during execution that they should report a "skipped" result.
 This can be useful when a precondition is not satisfied, or the test is over functionality that does not exist on the platform being tested.
 
+This package targets Xunit v2.
+Xunit v3 has skipping built-in.
+See [our Xunit v3 migration doc](https://aarnott.github.io/Xunit.SkippableFact/docs/xunit-v3.html).
+
 ## Installation
 
 This project is available as a [NuGet package][NuPkg]

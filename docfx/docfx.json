@@ -1,48 +1,53 @@
 {
-	"metadata": [
-		{
-			"src": [
-				{
-					"src": "../src/Xunit.SkippableFact",
-					"files": [
-						"**/*.csproj"
-					]
-				}
-			],
-			"dest": "api"
-		}
-	],
-	"build": {
-		"content": [
-			{
-				"files": [
-					"**/*.{md,yml}"
-				],
-				"exclude": [
-					"_site/**"
-				]
-			}
-		],
-		"resource": [
-			{
-				"files": [
-					"images/**"
-				]
-			}
-		],
-		"xref": [
-			"https://learn.microsoft.com/en-us/dotnet/.xrefmap.json"
-		],
-		"output": "_site",
-		"template": [
-			"default",
-			"modern"
-		],
-		"globalMetadata": {
-			"_appName": "Xunit.SkippableFact",
-			"_appTitle": "Xunit.SkippableFact",
-			"_enableSearch": true,
-			"pdf": false
-		}
-	}
+  "metadata": [
+    {
+      "src": [
+        {
+          "src": "../src/Xunit.SkippableFact",
+          "files": [
+            "**/*.csproj"
+          ]
+        }
+      ],
+      "dest": "api"
+    }
+  ],
+  "build": {
+    "content": [
+      {
+        "files": [
+          "**/*.{md,yml}"
+        ],
+        "exclude": [
+          "_site/**"
+        ]
+      }
+    ],
+    "resource": [
+      {
+        "files": [
+          "images/**"
+        ]
+      }
+    ],
+    "xref": [
+      "https://learn.microsoft.com/en-us/dotnet/.xrefmap.json"
+    ],
+    "output": "_site",
+    "template": [
+      "default",
+      "modern"
+    ],
+    "globalMetadata": {
+      "_appName": "Xunit.SkippableFact",
+      "_appTitle": "Xunit.SkippableFact",
+      "_enableSearch": true,
+      "pdf": false
+    },
+    "markdownEngineProperties": {
+      "markdigExtensions": [
+        "footnotes"
+      ]
+    }
+  }
 }
