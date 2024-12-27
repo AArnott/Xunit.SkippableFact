@@ -14,6 +14,6 @@
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Validation" PrivateAssets="compile;contentfiles;analyzers;build" />
-    <PackageReference Include="xunit.extensibility.execution" VersionOverride="2.4.0" />
+    <PackageReference Include="xunit.extensibility.execution" VersionOverride="2.9.2" />
   </ItemGroup>
 </Project>
