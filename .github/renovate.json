@@ -9,6 +9,10 @@
 			"groupName": "nbgv and nerdbank.gitversioning updates"
 		},
 		{
+			"matchPackageNames": ["xunit.extensibility.execution"],
+			"enabled": false
+		},
+		{
 			"matchPackageNames": ["xunit*"],
 			"allowedVersions": "<3.0",
 			"groupName": "xunit"
