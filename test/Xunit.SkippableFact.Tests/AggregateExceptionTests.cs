@@ -35,6 +35,8 @@ public class AggregateExceptionTests
     }
 
     [Fact] // This should fail, not be skipped, so use regular [Fact]
+    [Trait("TestCategory", "FailsInCloudTest")] // We don't want this intentionally failing test to break or CI/PR builds.
+    [Trait("FailureExpected", "true")]
     public void NoSkipWithAggregateException_NoSkipExceptions()
     {
         var exception1 = new InvalidOperationException("Error 1");
