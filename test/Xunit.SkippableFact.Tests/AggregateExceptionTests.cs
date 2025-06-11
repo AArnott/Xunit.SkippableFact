@@ -72,4 +72,14 @@ public class AggregateExceptionTests
         var aggregateException = new AggregateException(otherException, skipException1, skipException2);
         throw aggregateException;
     }
+
+    [SkippableFact]
+    public void SkipWithNestedAggregateException()
+    {
+        var skipException = new SkipException("Nested skip exception");
+        var otherException = new InvalidOperationException("Some other error");
+        var innerAggregate = new AggregateException(skipException, otherException);
+        var outerAggregate = new AggregateException(innerAggregate);
+        throw outerAggregate;
+    }
 }
