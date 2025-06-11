@@ -65,7 +65,7 @@ jobs:
         Echo "runid=$runid" >> $env:GITHUB_OUTPUT
 
     - name: 🔻 Download deployables artifacts
-      uses: actions/download-artifact@v4
+      uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093 # v4
       with:
         name: deployables-Linux
         path: ${{ runner.temp }}/deployables
@@ -74,11 +74,11 @@ jobs:
 
     - name: 💽 Upload artifacts to release
       shell: pwsh
-      if: ${{ github.event.release.assets_url }} != ''
+      if: ${{ github.event_name == 'release' && github.event.release.assets_url != '' }}
       env:
         GH_TOKEN: ${{ github.token }}
       run: |
-        Get-ChildItem '${{ runner.temp }}/deployables' |% {
+        Get-ChildItem '${{ runner.temp }}/deployables' -File -Recurse |% {
           Write-Host "Uploading $($_.Name) to release..."
           gh release -R ${{ github.repository }} upload "${{ github.ref_name }}" $_.FullName
         }
