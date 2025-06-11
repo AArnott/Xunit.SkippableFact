@@ -76,6 +76,19 @@ public class SkippableTestMessageBus : IMessageBus
                     }
 
                     break;
+                case "System.AggregateException" when failed.ExceptionTypes.Length > 1:
+                    // Check if any inner exception in the AggregateException is a skip exception
+                    for (int i = 1; i < failed.ExceptionTypes.Length; i++)
+                    {
+                        if (this.ShouldSkipException(failed.ExceptionTypes[i]))
+                        {
+                            skipTest = true;
+                            skipReason = failed.Messages?.Length > i ? failed.Messages[i] : null;
+                            break;
+                        }
+                    }
+
+                    break;
             }
 
             if (skipTest)
