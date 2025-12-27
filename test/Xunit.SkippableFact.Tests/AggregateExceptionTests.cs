@@ -1,9 +1,6 @@
 // Copyright (c) Andrew Arnott. All rights reserved.
 // Licensed under the Microsoft Public License (Ms-PL). See LICENSE.txt file in the project root for full license information.
 
-using System;
-using System.Threading.Tasks;
-
 namespace Xunit.SkippableFact.Tests;
 
 public class AggregateExceptionTests
@@ -44,15 +41,7 @@ public class AggregateExceptionTests
         var aggregateException = new AggregateException(exception1, exception2);
 
         // This should throw and cause the test to fail (not skip)
-        try
-        {
-            throw aggregateException;
-        }
-        catch (AggregateException ex)
-        {
-            Assert.Contains("Error 1", ex.Message);
-            Assert.Contains("Error 2", ex.Message);
-        }
+        throw aggregateException;
     }
 
     [SkippableFact(typeof(ArgumentException))]
