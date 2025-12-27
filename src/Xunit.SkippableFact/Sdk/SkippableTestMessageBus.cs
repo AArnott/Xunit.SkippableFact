@@ -1,4 +1,4 @@
-﻿// Copyright (c) Andrew Arnott. All rights reserved.
+// Copyright (c) Andrew Arnott. All rights reserved.
 // Licensed under the Microsoft Public License (Ms-PL). See LICENSE.txt file in the project root for full license information.
 
 using System;
@@ -96,6 +96,15 @@ public class SkippableTestMessageBus : IMessageBus
                 this.SkippedCount++;
                 return this.inner.QueueMessage(new TestSkipped(failed.Test, skipReason));
             }
+        }
+        else if (message is TestCaseFinished tcf)
+        {
+            message = new TestCaseFinished(
+                tcf.TestCase,
+                tcf.ExecutionTime,
+                tcf.TestsRun,
+                tcf.TestsFailed - this.SkippedCount,
+                tcf.TestsSkipped + this.SkippedCount);
         }
 
         return this.inner.QueueMessage(message);
