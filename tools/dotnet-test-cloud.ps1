@@ -75,7 +75,7 @@ if ($isMTP) {
         --no-build `
         -c $Configuration `
         -bl:"$testBinLog" `
-        --filter-not-trait 'TestCategory=FailsInCloudTest' `
+        --filter "TestCategory!=FailsInCloudTest" `
         --coverage-settings "$PSScriptRoot/test.runsettings" `
         @mtpArgs `
         @dumpSwitches `
