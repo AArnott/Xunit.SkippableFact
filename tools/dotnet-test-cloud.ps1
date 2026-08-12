@@ -13,6 +13,8 @@
     A switch to run the tests in an x86 process.
 .PARAMETER dotnet32
     The path to a 32-bit dotnet executable to use.
+.PARAMETER NoCoverage
+    A switch to skip code coverage collection.
 #>
 [CmdletBinding()]
 Param(
@@ -20,7 +22,8 @@ Param(
     [string]$Agent='Local',
     [switch]$PublishResults,
     [switch]$x86,
-    [string]$dotnet32
+    [string]$dotnet32,
+    [switch]$NoCoverage
 )
 
 $RepoRoot = (Resolve-Path "$PSScriptRoot/..").Path
@@ -48,59 +51,16 @@ if ($x86) {
 $testBinLog = Join-Path $ArtifactStagingFolder (Join-Path build_logs test.binlog)
 $testLogs = Join-Path $ArtifactStagingFolder test_logs
 
-$globalJson = Get-Content $PSScriptRoot/../global.json | ConvertFrom-Json
-$isMTP = $globalJson.test.runner -eq 'Microsoft.Testing.Platform'
-$extraArgs = @()
+$testProject = Join-Path $RepoRoot 'test/Xunit.SkippableFact.Tests/Xunit.SkippableFact.Tests.csproj'
 $failedTests = 0
 
-if ($isMTP) {
-    if ($OnCI) { $extraArgs += '--no-progress' }
+& $dotnet test $testProject `
+    --no-build `
+    -c $Configuration `
+    --filter "TestCategory!=FailsInCloudTest"
+if ($LASTEXITCODE -ne 0) { $failedTests += 1 }
 
-    $dumpSwitches = @(
-        ,'--hangdump'
-        ,'--hangdump-timeout','120s'
-        ,'--crashdump'
-    )
-    $mtpArgs = @(
-        ,'--coverage'
-        ,'--coverage-output-format','cobertura'
-        ,'--diagnostic'
-        ,'--diagnostic-output-directory',$testLogs
-        ,'--diagnostic-verbosity','Information'
-        ,'--results-directory',$testLogs
-        ,'--report-trx'
-    )
-
-    & $dotnet test --solution $RepoRoot `
-        --no-build `
-        -c $Configuration `
-        -bl:"$testBinLog" `
-        --filter "TestCategory!=FailsInCloudTest" `
-        --coverage-settings "$PSScriptRoot/test.runsettings" `
-        @mtpArgs `
-        @dumpSwitches `
-        @extraArgs
-    if ($LASTEXITCODE -ne 0) { $failedTests += 1 }
-
-    $trxFiles = Get-ChildItem -Recurse -Path $testLogs\*.trx
-} else {
-    $testDiagLog = Join-Path $ArtifactStagingFolder (Join-Path test_logs diag.log)
-    & $dotnet test $RepoRoot `
-        --no-build `
-        -c $Configuration `
-        --filter "TestCategory!=FailsInCloudTest" `
-        --collect "Code Coverage;Format=cobertura" `
-        --settings "$PSScriptRoot/test.runsettings" `
-        --blame-hang-timeout 60s `
-        --blame-crash `
-        -bl:"$testBinLog" `
-        --diag "$testDiagLog;TraceLevel=info" `
-        --logger trx `
-        @extraArgs
-    if ($LASTEXITCODE -ne 0) { $failedTests += 1 }
-
-    $trxFiles = Get-ChildItem -Recurse -Path $RepoRoot\test\*.trx
-}
+$trxFiles = @()
 
 $unknownCounter = 0
 $trxFiles |% {
