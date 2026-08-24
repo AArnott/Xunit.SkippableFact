@@ -43,7 +43,7 @@ if ($x86) {
       Write-Host "Running tests using `"$dotnet`"" -ForegroundColor DarkGray
     } else {
       Write-Error "Unable to find 32-bit dotnet.exe"
-      return 1
+      exit 1
     }
   }
 }
@@ -51,16 +51,82 @@ if ($x86) {
 $testBinLog = Join-Path $ArtifactStagingFolder (Join-Path build_logs test.binlog)
 $testLogs = Join-Path $ArtifactStagingFolder test_logs
 
-$testProject = Join-Path $RepoRoot 'test/Xunit.SkippableFact.Tests/Xunit.SkippableFact.Tests.csproj'
+$globalJson = Get-Content $PSScriptRoot/../global.json | ConvertFrom-Json
+$isMTP = $globalJson.test.runner -eq 'Microsoft.Testing.Platform'
+$extraArgs = @()
 $failedTests = 0
 
-& $dotnet test $testProject `
-    --no-build `
-    -c $Configuration `
-    --filter "TestCategory!=FailsInCloudTest"
-if ($LASTEXITCODE -ne 0) { $failedTests += 1 }
+if ($isMTP) {
+    if ($OnCI) { $extraArgs += '--no-progress' }
 
-$trxFiles = @()
+    $dumpSwitches = @(
+        ,'--hangdump'
+        ,'--hangdump-timeout','5m'
+        ,'--crashdump'
+        ,'--crashdump-type','Heap'
+        # The native crash report accompanies the dump and is often the only way to identify the
+        # faulting thread and instruction when a test host dies of an access violation on Linux.
+        ,'--crash-report-if-supported'
+    )
+    $mtpArgs = @(
+        ,'--diagnostic'
+        ,'--diagnostic-output-directory',$testLogs
+        ,'--diagnostic-verbosity','Information'
+        ,'--results-directory',$testLogs
+        ,'--report-trx'
+    )
+
+    if (-not $NoCoverage) {
+        $mtpArgs += @(
+            ,'--coverage'
+            ,'--coverage-output-format','cobertura'
+            ,'--coverage-settings',"$PSScriptRoot/test.runsettings"
+        )
+    }
+
+    $solutionFiles = @(Get-ChildItem -LiteralPath $RepoRoot -File | Where-Object { $_.Extension -in '.sln', '.slnx' })
+    if ($solutionFiles.Count -ne 1) {
+        throw "Expected exactly one solution file in $RepoRoot, but found $($solutionFiles.Count)."
+    }
+
+    $solutionPath = $solutionFiles[0].FullName
+    & $dotnet test $solutionPath `
+        --no-build `
+        -c $Configuration `
+        -bl:"$testBinLog" `
+        -- `
+        --filter "TestCategory!=FailsInCloudTest" `
+        @mtpArgs `
+        @dumpSwitches `
+        @extraArgs
+    if ($LASTEXITCODE -ne 0) { $failedTests += 1 }
+
+    $trxFiles = Get-ChildItem -Recurse -Path $testLogs\*.trx
+} else {
+    $testDiagLog = Join-Path $ArtifactStagingFolder (Join-Path test_logs diag.log)
+    $coverageArgs = @()
+    if (-not $NoCoverage) {
+        $coverageArgs = @(
+            ,'--collect','Code Coverage;Format=cobertura'
+            ,'--settings',"$PSScriptRoot/test.runsettings"
+        )
+    }
+
+    & $dotnet test $RepoRoot `
+        --no-build `
+        -c $Configuration `
+        --filter "TestCategory!=FailsInCloudTest" `
+        --blame-hang-timeout 60s `
+        --blame-crash `
+        -bl:"$testBinLog" `
+        --diag "$testDiagLog;TraceLevel=info" `
+        --logger trx `
+        @coverageArgs `
+        @extraArgs
+    if ($LASTEXITCODE -ne 0) { $failedTests += 1 }
+
+    $trxFiles = Get-ChildItem -Recurse -Path $RepoRoot\test\*.trx
+}
 
 $unknownCounter = 0
 $trxFiles |% {
