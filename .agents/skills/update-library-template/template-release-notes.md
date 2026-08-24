@@ -3,6 +3,10 @@
 This file will describe significant changes in Library.Template as they are introduced, especially if they require special consideration when merging updates into existing repos.
 This file is referenced by update-library-template.prompt.md and should remain in place to facilitate future merges, whether done manually or by AI.
 
+## xunit version
+
+This repository intentionally uses xunit v2. Do not introduce package references, tooling, or configuration that requires a newer xunit version when merging Library.Template updates.
+
 ## Solution rename
 
 Never leave a Library.slnx file in the repository.
