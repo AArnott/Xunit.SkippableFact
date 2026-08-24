@@ -6,8 +6,6 @@ on:
     - main
     - 'v*.*'
     - validate/*
-    tags:
-    - v*.*
   pull_request:
   workflow_dispatch:
 
