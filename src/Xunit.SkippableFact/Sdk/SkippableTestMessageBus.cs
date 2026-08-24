@@ -94,7 +94,7 @@ public class SkippableTestMessageBus : IMessageBus
             if (skipTest)
             {
                 this.SkippedCount++;
-                return this.inner.QueueMessage(new TestSkipped(failed.Test, skipReason));
+                return this.inner.QueueMessage(new TestSkippedWithOutput(failed.Test, failed.ExecutionTime, failed.Output, skipReason));
             }
         }
         else if (message is TestCaseFinished tcf)
@@ -132,4 +132,15 @@ public class SkippableTestMessageBus : IMessageBus
 
     private bool ShouldSkipException(string exceptionType) =>
         Array.IndexOf(this.SkippingExceptionNames, exceptionType) >= 0;
+
+    private sealed class TestSkippedWithOutput : TestResultMessage, ITestSkipped
+    {
+        internal TestSkippedWithOutput(ITest test, decimal executionTime, string output, string? reason)
+            : base(test, executionTime, output)
+        {
+            this.Reason = reason;
+        }
+
+        public string? Reason { get; }
+    }
 }
