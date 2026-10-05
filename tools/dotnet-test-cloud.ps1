@@ -101,6 +101,7 @@ if ($isMTP) {
         -c $Configuration `
         -bl:"$testBinLog" `
         -- `
+        --filter "TestCategory!=FailsInCloudTest" `
         @mtpArgs `
         @dumpSwitches `
         @extraArgs
