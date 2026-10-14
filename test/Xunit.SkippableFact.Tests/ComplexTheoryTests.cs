@@ -8,7 +8,7 @@ public class ComplexTheoryTests
     public static IEnumerable<object[]> Packets =>
     [
         [new ValueType(0x0001)],
-        [new ValueType(0x0002)]
+        [new ValueType(0x0002)],
     ];
 
     [SkippableTheory]
