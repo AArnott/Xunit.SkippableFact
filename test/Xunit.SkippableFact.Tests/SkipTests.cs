@@ -56,8 +56,8 @@ public class SkipTests
         // static analysis
         string? value =
             int.Parse("42", System.Globalization.CultureInfo.InvariantCulture) == 42
-            ? "Not null"
-            : null;
+                ? "Not null"
+                : null;
 
         Skip.If(value is null);
 
@@ -72,8 +72,8 @@ public class SkipTests
         // static analysis
         string? value =
             int.Parse("42", System.Globalization.CultureInfo.InvariantCulture) == 42
-            ? "Not null"
-            : null;
+                ? "Not null"
+                : null;
 
         Skip.IfNot(value is object);
 
