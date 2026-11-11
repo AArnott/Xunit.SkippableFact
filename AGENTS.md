@@ -58,13 +58,13 @@ dotnet test --project test/Xunit.SkippableFact.Tests/Xunit.SkippableFact.Tests.c
 
 **Run tests for a specific framework only**:
 ```bash
-dotnet test --project test/Xunit.SkippableFact.Tests/Xunit.SkippableFact.Tests.csproj --no-build -c Release --framework net8.0
+dotnet test --project test/Xunit.SkippableFact.Tests/Xunit.SkippableFact.Tests.csproj --no-build -c Release --framework net10.0
 ```
 
 **List all available tests without running them**:
 ```bash
 cd test/Xunit.SkippableFact.Tests
-dotnet run --no-build -c Release --framework net8.0 -- --list-tests
+dotnet run --no-build -c Release --framework net10.0 -- --list-tests
 ```
 
 **Key points about test filtering with MTP v2 / xunit v2**:
